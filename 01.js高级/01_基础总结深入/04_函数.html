@@ -23,6 +23,41 @@
 -->
 <script type="text/javascript">
 
+  fn1(1, 2, 3);  // 函数声明提升，整体提升
+  // * 函数声明
+  function fn1(x, y, z) {
+    /*
+      什么时候需要形参？
+        当内部需要一个变化的值，但是内部没有，需要通过参数传入
+      什么时候需要指定返回值？
+        当外部需要函数内部的数据
+     */
+    // 实参列表：里面有函数所有实参
+    // 伪数组对象（只有length属性、能通过下标取赋值、但是没有数组的一般方法）
+    console.log(arguments);
+    console.log(arguments.callee === fn1); // arguments.callee指向当前函数
+
+    console.log(this);
+  }
+  // * 表达式
+  // fn2(); // 变量提升，值为undefined
+  var fn2 = function () {
+
+  }
+
+  /*
+    this指向：指向调用函数的对象
+      fn() --> window.fn()  this指向window
+      obj.fn() --> this指向obj
+      new Fn() --> this指向创建的实例对象
+      fn.call/apply/bind(obj, xxx) --> this指向传入的第一个参数obj
+
+      特殊函数：回调函数
+        定时器回调函数： window
+        DOM事件回调函数：绑定事件的那个DOM对象
+   */
+
+
 </script>
 </body>
 </html>

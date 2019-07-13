@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>自定义call_apply_bind</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    call方法：
+      调用函数，传入实参，改变this指向
+   */
+
+  function myCall(target) {
+    // 获取第一参数：改变函数的this指向的对象
+    // 获取后面的参数：都是函数实参
+    var params = [];
+    for (var i = 1; i < arguments.length; i++) {
+      params.push(arguments[i]);
+    }
+    // 找到fn --> this --> myCall方法是通过fn调用的。所有myCall方法的this就指向fn
+    // ...运算符将数组一一展开
+    // this(...params);  window
+    target.fn = this;
+    // fn函数的this指向target
+    target.fn(...params);
+  }
+
+  // new Function()
+  Function.prototype.myCall = myCall;
+
+
+  function fn(a, b) {
+    console.log(a, b);
+    console.log(this);
+  }
+
+  var target = {c: 123};
+
+  // target.fn = fn;
+  // target.fn();
+
+  // fn.call();
+  fn.myCall(target, 1, 2);
+
+</script>
+</body>
+</html>

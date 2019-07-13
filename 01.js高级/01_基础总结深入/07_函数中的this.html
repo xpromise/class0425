@@ -20,6 +20,33 @@
 -->
 <script type="text/javascript">
 
+  function fn(a, b) {
+    // 函数定义时，this指向不能确定
+    // 函数调用时，才能确定this指向
+    console.log(a, b);
+    console.log(this);
+  }
+
+  var obj = {a: 123};
+  /*
+    call / apply 的联系和区别：
+      联系：都能改变this指向, 执行函数
+      区别：传参方式不一样。
+        call传参可以n个，第二个开始是函数的实参
+        apply传参只有两个，第二个参数是一个数组，数组里面的值是函数的实参
+
+    bind：通常用来改变回调函数的this指向
+      区别：
+        1. 不能执行函数，返回一个新函数
+        2. 传参方式与call一致
+   */
+  // fn.call(obj, 1, 2);
+  // fn.apply(obj, [3, 4]);
+
+  // bind方法返回一个新函数。新函数里面代码和原函数一样，this指向被强制绑定了
+  var newFn = fn.bind(obj, 5, 6);
+  newFn();
+  fn();
 
 </script>
 </body>

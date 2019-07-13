@@ -9808,9 +9808,6 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 
 /*
 	(function (w) {
-		jQuery = function () {}
-
-		w.jQuery = w.$ = jQuery;
-	})(window)
-
- */
+		var $ = jQuery = function () {};
+	})(window);
+*/

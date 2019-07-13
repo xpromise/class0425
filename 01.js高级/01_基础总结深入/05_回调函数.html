@@ -20,6 +20,22 @@
   * 生命周期回调函数(后面学)
 -->
 <script type="text/javascript">
+  /*
+    回调函数：
+      1. 你定义的函数
+      2. 你没有调用
+      3. 但是最终函数会执行（不是你调用的）
+    特点:
+      大部分回调函数都是异步执行。
+   */
+
+  setTimeout(function () {
+   console.log('定时器到点了~');
+  }, 1000);
+  
+  document.getElementById('btn').onclick = function () {
+
+  }
 
 </script>
 </body>

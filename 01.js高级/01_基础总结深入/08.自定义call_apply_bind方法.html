@@ -11,6 +11,41 @@
       调用函数，传入实参，改变this指向
    */
 
+  /*
+  问题：多了一个xx属性
+  function myCall(target) {
+    // 获取第一参数：改变函数的this指向的对象
+    // 获取后面的参数：都是函数实参
+    var params = [];
+    for (var i = 1; i < arguments.length; i++) {
+      params.push(arguments[i]);
+    }
+    // 找到fn --> this --> myCall方法是通过fn调用的。所有myCall方法的this就指向fn
+    // ...运算符将数组一一展开
+    target._xx = this;
+    // fn函数的this指向target
+    target._xx(...params);
+  }*/
+
+  /*
+  解决了xx属性问题
+  问题：没有返回值
+  function myCall(target) {
+    // 获取第一参数：改变函数的this指向的对象
+    // 获取后面的参数：都是函数实参
+    var params = [];
+    for (var i = 1; i < arguments.length; i++) {
+      params.push(arguments[i]);
+    }
+    // 找到fn --> this --> myCall方法是通过fn调用的。所有myCall方法的this就指向fn
+    // ...运算符将数组一一展开
+    target.__proto__._xx = this;
+    // fn函数的this指向target
+    target._xx(...params);
+    // 删除对象的属性
+    delete target.__proto__._xx;
+  }*/
+
   function myCall(target) {
     // 获取第一参数：改变函数的this指向的对象
     // 获取后面的参数：都是函数实参
@@ -21,18 +56,64 @@
     // 找到fn --> this --> myCall方法是通过fn调用的。所有myCall方法的this就指向fn
     // ...运算符将数组一一展开
     // this(...params);  window
-    target.fn = this;
+    target.__proto__._xx = this;
     // fn函数的this指向target
-    target.fn(...params);
+    var result = target._xx(...params);
+    // 删除对象的属性
+    delete target.__proto__._xx;
+    // 将函数调用的返回值作为call方法返回值返回
+    return result;
   }
+
+  function myApply(target, params) {
+    // 找到fn --> this --> myCall方法是通过fn调用的。所有myCall方法的this就指向fn
+    // ...运算符将数组一一展开
+    // this(...params);  window
+    target.__proto__._xx = this;
+    // fn函数的this指向target
+    target._xx(...params);
+    // 删除对象的属性
+    delete target.__proto__._xx;
+  }
+
+  /*
+    bind：
+      返回一个新函数，新函数的this指向发生变化
+   */
+  function myBind(target) {
+    // 获取第一参数：改变函数的this指向的对象
+    // 获取后面的参数：都是函数实参
+    var firstParams = [];
+    for (var i = 1; i < arguments.length; i++) {
+      firstParams.push(arguments[i]);
+    }
+    // 缓存this --> fn
+    var _self = this;
+
+    return function () {
+      var lastParams = [];
+      for (var i = 0; i < arguments.length; i++) {
+        lastParams.push(arguments[i]);
+      }
+
+      target.__proto__._xx = _self;
+      // fn函数的this指向target
+      target._xx(...firstParams, ...lastParams);
+      // 删除对象的属性
+      delete target.__proto__._xx;
+    }
+  }
+
 
   // new Function()
   Function.prototype.myCall = myCall;
-
+  Function.prototype.myApply = myApply;
+  Function.prototype.myBind = myBind;
 
   function fn(a, b) {
     console.log(a, b);
     console.log(this);
+    return 456;
   }
 
   var target = {c: 123};
@@ -41,7 +122,12 @@
   // target.fn();
 
   // fn.call();
-  fn.myCall(target, 1, 2);
+  var result = fn.myCall(target, 1, 2);
+  fn.myApply(target, [3, 4]);
+  var newFn = fn.myBind(target, 5);
+  newFn(6);
+
+  console.log(result);
 
 </script>
 </body>

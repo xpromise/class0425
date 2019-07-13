@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>自定义array的方法</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    1. 数组去重
+    2. 数组乱序
+   */
+  var arr = [1, 8, 2, 7, 6, 1, 4, 5, 10, 9];
+  /*arr = arr.sort(function (a, b) {
+    return a - b;
+  });*/
+  /*var arr = [];
+
+  for (var i = 0; i < 10000; i++) {
+    arr.push(Math.round(Math.random() * 5000));
+  }
+
+  // 先排序
+  console.time();
+  var sortedArr = arr.sort();
+  for (var i = 0; i < sortedArr.length; i++) {
+    // 比较相邻的数
+    if (sortedArr[i] === sortedArr[i + 1]) {
+      sortedArr.splice(i, 1);
+      i--;
+    }
+  }
+  console.timeEnd();
+  console.log(sortedArr);*/
+
+  /*console.time();
+  var obj = {};
+  for (var i = 0; i < arr.length; i++) {
+    // 利用对象不可重复特点
+    obj[arr[i]] = 0;
+  }
+  var newArr = [];
+  for (var key in obj) {
+    newArr.push(+key);
+  }
+  console.timeEnd();
+
+  console.log(newArr);*/
+
+  // 2. 数组乱序
+  /*arr = arr.sort(function (next, prev) {
+    // a - b是升序
+    // b - a是降序
+    return Math.random() > 0.5 ? next - prev : prev - next;
+  });
+  console.log(arr);*/
+
+  // 3. 数组排序 - 快速排序（时间复杂度、空间复杂度）
+  // 找到基准值，小的在左，大的在右
+
+  function quickSort(arr) {
+
+    // 如果数组长度小于等于1，不需要排序，直接返回原数组
+    if (arr.length <= 1) return arr;
+
+    // 找到基准值的下标
+    var index = Math.floor(arr.length / 2);
+    // 取出基准值，基准值不参与排序
+    var number = arr.splice(index, 1)[0];
+
+    // 创建数组
+    var left = [];
+    var right = [];
+    // 遍历数组，小的在左，大的在右
+    for (var i = 0; i < arr.length; i++) {
+      var item = arr[i];
+      if (item >= number) {
+        right.push(item);
+      } else {
+        left.push(item);
+      }
+    }
+
+    // 对left和right在来一遍。
+    var leftArr = quickSort(left);
+    var rightArr = quickSort(right);
+
+    return leftArr.concat([number], rightArr);
+
+  }
+  console.log(quickSort(arr));
+
+
+</script>
+</body>
+</html>

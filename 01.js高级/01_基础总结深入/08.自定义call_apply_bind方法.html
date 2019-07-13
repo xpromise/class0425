@@ -58,6 +58,9 @@
     // this(...params);  window
     target.__proto__._xx = this;
     // fn函数的this指向target
+    // ...params是为了给函数传入参数
+    // target._xx() --> this() --> fn() 就是fn函数调用
+    // result接收了fn函数调用的返回值
     var result = target._xx(...params);
     // 删除对象的属性
     delete target.__proto__._xx;

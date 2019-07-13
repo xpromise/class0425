@@ -12,6 +12,20 @@
 -->
 <script type="text/javascript">
 
+  function fn(a) {
+    // a++;
+    a.num = 123;
+    console.log(a);
+  }
+
+  // var num = 123;
+  // fn(num); // 值传递
+
+  var obj = {};
+  fn(obj); // 传递的是引用类型地址值 （引用传递 / （地址）值传递）
+
+  console.log(obj); // { num: 123 }
+
 </script>
 </body>
 </html>

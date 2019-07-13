@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>07_Web Workers</title>
+</head>
+<body>
+
+<input type="text" id="number" value="30">
+<button id="btn1">主线程计算fibonacci值</button>
+<button id="btn2">分线程计算fibonacci值</button>
+<!--
+1. H5规范提供了js分线程的实现, 取名为: Web Workers
+2. 相关API
+  * Worker: 构造函数, 加载分线程执行的js文件
+  * Worker.prototype.onmessage: 用于接收另一个线程的回调函数
+  * Worker.prototype.postMessage: 向另一个线程发送消息
+3. 不足
+  * worker内代码不能操作DOM(更新UI)
+  * 不能跨域加载JS
+  * 不是每个浏览器都支持这个新特性
+-->
+<script type="text/javascript">
+  /*
+  需求：
+    计算得到fibonacci数列中第n个数的值
+    在主线程计算: 当位数较大时, 会阻塞主线程, 导致界面卡死
+    在分线程计算: 不会阻塞主线程
+   */
+
+</script>
+</body>
+</html>

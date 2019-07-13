@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>01_相关问题</title>
+</head>
+<body>
+<!--
+1. undefined与null的区别?
+  * undefined代表没有赋值
+  * null代表赋值了, 只是值为null
+2. 什么时候给变量赋值为null呢?
+  * var a = null //a将指向一个对象, 但对象此时还没有确定
+  * a = null //让a指向的对象成为垃圾对象
+3. 区别变量类型与数据类型?
+  * js的变量本身是没有类型的, 变量的类型实际上是变量内存中数据的类型
+  * 变量类型:
+    * 基本类型: 保存基本类型数据的变量
+    * 引用类型: 保存对象地址值的变量
+  * 数据对象
+    * 基本类型
+    * 对象类型
+-->
+
+<script type="text/javascript">
+
+  /*
+    什么场景能得到undefined：
+      1. 声明变量，没有赋值
+      2. 调用函数没有指定返回值，返回值为undefined
+      3. 调用函数没有传入实参，形参的值就是undefined
+      4. 读取对象上不存在的属性
+
+    undefined意义：定义了变量，但是没有赋值，值就是undefined（定义了，没有赋值）
+   */
+  var a;
+  console.log(a); // undefined
+
+  function fn(b) {
+    console.log(b); // undefined
+  }
+  console.log(fn()); // undefined
+
+  var obj = {};
+  console.log(obj.a); // undefined
+
+  /*
+    什么场景能得到null：
+      得自己设置null
+        1. 声明变量，将来打算作为对象使用，赋值为null
+        2. 当变量不需要了或者希望对象成为垃圾对象，赋值为null，这个对象会成为垃圾对象
+
+    null 代表 赋值了，只是值为null
+   */
+  function f() {
+    var obj2 = null;
+    obj2 = {}; // 当对象没有变量引用（指向）时，这个对象就会成为垃圾对象。将来会被js引擎垃圾回收机制自动回收释放
+    obj2 = null; // 变量本身并没有释放。如果想释放，必须放函数中
+  }
+
+
+</script>
+</body>
+</html>

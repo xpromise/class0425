@@ -12,6 +12,18 @@
 -->
 <script type="text/javascript">
 
+  var person = {};
+
+  var a = 'name';
+  var b = 'jack';
+
+  // person.a = b;
+  // 属性名是变量时
+  // person[a] = b;
+  // 属性名不是一个合法标识名称时（比如包含 + - * /）
+  person['content-type'] = 'text/html;charset=utf-8';
+  console.log(person);
+
 </script>
 </body>
 </html>

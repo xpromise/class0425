@@ -28,6 +28,36 @@
 
 <script type="text/javascript">
 
+  var name1 = 'jack';
+  var age1 = 18;
+  var sex1 = '男';
+  var name2 = 'rose';
+  var age2 = 16;
+  var sex2 = '女';
+
+  // new Object()
+  // 语法糖：
+  var person1 = {
+    "name": 'jack',
+    age: 18,
+    sex: '女',
+    setName: function () {
+
+    }
+  };
+
+  /*
+    对象里面有属性名key和属性值value：
+      key的类型：字符串类型
+      value的类型：可以为任意类型
+        function类型： 方法
+        非function： 属性
+   */
+
+  // 添加属性的两种方式
+  person1.hobby = '爱好~';
+  person1["info"] = '介绍~';
+
 </script>
 </body>
 </html>

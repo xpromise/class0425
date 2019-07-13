@@ -8,12 +8,19 @@
 
 <script type="text/javascript">
 
-  var a = {}
-  var obj1 = {n: 2}
-  var obj2 = {m: 3}
-  a[obj1.toString()] = 4
-  a[obj2.toString()] = 5
-  console.log(a[obj1])
+  var a = {};
+  var obj1 = {n: 2};
+  var obj2 = {m: 3};
+  // 对象不能作为属性名，用valueOf toString转换 --> [object Object]
+  a[obj1] = 4; // --> a['[object Object]'] = 4;
+  a[obj2] = 5;  // --> a['[object Object]'] = 5;
+  console.log(a[obj1]); // 5
+  console.log(a);
+
+  // 对象不能做为加法去运算，所以需要调用valueOf toString转换。
+  // console.log(obj1.toString()); // [object Object]
+  // console.log(obj1 + 1); // [object Object]1
+
 
 
 </script>

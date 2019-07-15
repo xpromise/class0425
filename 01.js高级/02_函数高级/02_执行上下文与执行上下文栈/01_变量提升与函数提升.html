@@ -16,6 +16,22 @@
   * 预解析、预处理
 -->
 <script type="text/javascript">
+  // 变量提升
+  console.log(a); // undefined
+  var a = 10;
+  console.log(a); // 10
+
+  // 函数提升
+  fn();
+  function fn() {
+
+  }
+
+  // 变量提升
+  var foo = function () {
+
+  }
+
 
 </script>
 </body>

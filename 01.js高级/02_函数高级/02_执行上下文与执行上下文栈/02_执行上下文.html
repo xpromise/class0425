@@ -28,6 +28,28 @@
 -->
 <script type="text/javascript">
 
+  debugger;
+
+  console.log(window.a);
+  console.log(window.fn);
+  console.log(this);
+
+  var a = 10;
+
+  fn(10, 20);
+  function fn(x, y) {
+    debugger;
+
+    console.log(arguments);
+    console.log(this);
+    console.log('fn()');
+
+    var c = 123;
+    function d() {
+      console.log('d()');
+    }
+  }
+
 </script>
 </body>
 </html>

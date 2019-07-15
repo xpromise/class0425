@@ -9,30 +9,33 @@
   /*
    测试题1: 函数名和变量名相同时，变量名将被忽略
    */
-  //var a;
+
+  // var a;
   var a = 123;
   function a() {
 
   }
-  console.log(typeof a)
+  console.log(typeof a);
   /*
      测试题2: 变量预处理, in操作符
+      A in B   判断A是否是B的属性
      */
   if (!(b in window)) {
     var b = 1;
   }
-  console.log(b)
+  console.log(b); // undefined
 
   /*
      测试题3: 预处理, 顺序执行
+       重复声明同一个变量，后面的var被忽略了~
      */
 
-  var c = 1
-  function c(c) {
-    console.log(c)
-    var c = 3
+  var c = 1;
+  function d(c) {
+    console.log(c);
+    var c = 3;
   }
-  c(2)
+  d(2); // c is not a function
 
 </script>
 </body>

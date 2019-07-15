@@ -7,11 +7,12 @@
 <body>
 <!--
 1. 依次输出什么?
-2. 整个过程中产生了几个执行上下文?
+2. 整个过程中产生了几个执行上下文对象?
 -->
 <script type="text/javascript">
-  console.log('global begin: '+ i)
-  var i = 1
+  // 同步代码：从上到下、依次执行
+  console.log('global begin: '+ i);
+  var i = 1;
   foo(i);
   function foo(i) {
     if (i === 4) {
@@ -22,6 +23,17 @@
     console.log('foo() end:' + i);
   }
   console.log('global end: ' + i);
+  /*
+    gb undefined - fb1 - fb2 - fb3 - fe3 - fe2 - fe1 - ge 1
+
+    foo(1) --> 打印 fb1 --> 执行foo(2) --> 还有console.log('foo() end:' + i);没有执行  --> i: 1
+      foo(2) --> 打印 fb2 --> 执行foo(3) --> 还有console.log('foo() end:' + i);没有执行  --> i: 2
+        foo(3) --> 打印 fb3 --> 执行foo(4) --> 还有console.log('foo() end:' + i);没有执行  --> i: 3
+          foo(4) return ~
+
+      函数调用一次就产生一个函数执行上下文对象
+        n(函数调用的次数) + 1(window)
+   */
 </script>
 </body>
 </html>

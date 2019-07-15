@@ -15,6 +15,47 @@
   * 作用: 函数的所有实例对象自动拥有原型中的属性(方法)
 -->
 <script type="text/javascript">
+  /*
+    1. 什么是原型：
+      原型指得就是两个属性。prototype、__proto__
+      哪里有prototype？ 所有函数都有prototype属性，它的值是一个对象，这个对象叫做原型对象
+        原型对象默认有两个属性：
+          constructor: 函数本身
+          __proto__: 对象 --> Object.prototype
+            例外: Object.prototype.__proto__ === null
+      哪里有__proto__? 所有对象都有__proto__属性。它的值是其构造函数prototype指向的值（原型对象）
+   */
+
+  /*
+    所有函数: 自定义函数、内置函数
+   */
+
+  function person() {
+
+  }
+  // 证明所有函数都有prototype属性
+  console.log(person.prototype);
+  console.log(Object.prototype);
+  
+  console.log(person.prototype.__proto__ === Object.prototype); // true
+  console.log(Object.prototype.__proto__); // null
+
+  function Fn() {
+
+  }
+  console.log(Fn.prototype);
+
+  /*
+    所有对象
+   */
+  var obj = {}; // new Object()
+  var fn = new Fn();
+  var arr = [];
+
+  console.log(obj.__proto__ === Object.prototype); // true
+  console.log(fn.__proto__  === Fn.prototype); // true
+  // console.log(arr.__proto__);
+  // console.log(Fn.__proto__);
 
 
 </script>

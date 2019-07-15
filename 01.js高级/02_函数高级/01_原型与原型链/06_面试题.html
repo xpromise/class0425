@@ -23,7 +23,7 @@
   };
 
   var c = new A();
-  console.log(b.n, b.m, c.n, c.m);
+  console.log(b.n, b.m, c.n, c.m); // 1 undefined 2 3
 
 
   /*
@@ -37,10 +37,10 @@
     console.log('b()')
   };
   var f = new F();
-  f.a();
-  f.b();
-  F.a();
-  F.b();
+  f.a(); // a()
+  // f.b(); // 报错
+  F.a(); // a()
+  F.b(); // b()
 
 </script>
 </body>

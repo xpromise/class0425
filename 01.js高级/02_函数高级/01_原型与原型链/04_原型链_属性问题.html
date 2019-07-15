@@ -19,11 +19,29 @@
     this.name = name;
   };
   Person.prototype.sex = '男';
+  /*
+    { name: 'tom', age: 12, __proto__: Person.prototype }
+    Person.prototype = {
+      sex: '男',
+      setName: function () {}
+    }
+   */
   var p1 = new Person('Tom', 12);
   p1.setName('Jack');
-  console.log(p1.name, p1.age, p1.sex);
+  console.log(p1.name, p1.age, p1.sex); // jack  12  男
   p1.sex = '女';
-  console.log(p1.name, p1.age, p1.sex);
+  /*
+    { name: 'jack', age: 12, sex: '女', __proto__: Person.prototype }
+    Person.prototype = {
+      sex: '男',
+      setName: function () {}
+    }
+
+    对象读取属性，会沿着原型链查找
+    对象设置属性，不考虑原型链。只考虑对象自身属性。自身上有就修改，没有就添加
+   */
+  console.log(p1.name, p1.age, p1.sex); // jack 12 女
+  console.log(p1);
 </script>
 </body>
 </html>

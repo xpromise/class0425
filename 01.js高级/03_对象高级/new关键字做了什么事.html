@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    new关键字做了什么事？
+      1. 创建一个实例对象
+      2. 改变构造函数的this指向，指向为创建的实例对象
+      3. 将实例对象.__proto__指向构造函数.prototype
+      4. 执行函数体代码
+      5. 如果构造函数返回值是对象类型，就返回这个对象。如果是基本数据类型，就返回实例对象
+   */
+
+  function Person(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  Person.prototype.setName = function (name) {
+    this.name = name;
+  };
+
+  var p = new Person('jack', 18);
+  console.log(p);
+
+</script>
+</body>
+</html>

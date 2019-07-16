@@ -14,6 +14,32 @@
   * 及时释放
 -->
 <script type="text/javascript">
+  /*
+    内存泄漏：一直占用了一片内存，但是没有实际用途。这就是内存泄漏
+    内存溢出：内存不够用了。
+   */
+
+  function fn1() {
+    var a = 1;
+    function fn2() {
+      console.log(a);
+    }
+    return fn2;
+  }
+  var f = fn1();
+
+  f = null;
+
+  /*
+    常见的内存泄漏：
+      1. 没有清除的闭包
+      2. 没有及时清除的定时器
+      3. DOM事件（删除DOM元素前，先解绑事件）
+    常见的内存溢出：
+      1. 循环中创建大量的全局变量保存大量的数据
+      2. 函数递归调用  --> do while
+   */
+
 </script>
 </body>
 </html>

@@ -11,10 +11,39 @@
 2. 让函数外部可以操作(读写)到函数内部的数据(变量/函数)
 
 问题:
-  1. 函数执行完后, 函数内部声明的局部变量是否还存在?
-  2. 在函数外部能直接访问函数内部的局部变量吗?
+  1. 函数执行完后, 函数内部声明的局部变量是否还存在? 存在
+  2. 在函数外部能直接访问函数内部的局部变量吗? 间接通过函数操作局部变量
 -->
 <script type="text/javascript">
+
+  function fn1() {
+    debugger
+    // 延长局部变量的生命周期（延长存活时间）
+    var a = 1;
+
+    function fn2() {
+      // 让函数外部操作（读/写）函数内部的数据
+      a++;
+      console.log(a);
+    }
+
+    function fn3() {
+      console.log(a); // 3
+    }
+
+    return {
+      fn2: fn2,
+      fn3: fn3
+    };
+  }
+
+  var obj = fn1();
+  obj.fn2();
+  obj.fn2();
+  obj.fn3();
+
+  obj = null;
+
 </script>
 </body>
 </html>

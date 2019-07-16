@@ -11,6 +11,26 @@
 2. 死亡: 在嵌套的内部函数成为垃圾对象时
 -->
 <script type="text/javascript">
+
+  /*function fn1() {
+    var a = 1;
+    function fn2() {
+      console.log(a);
+    }
+  }
+  fn1();*/
+
+  function fn1() {
+    var a = 1;
+    function fn2() {
+      console.log(a);
+    }
+    return fn2;
+  }
+  var f = fn1();
+  f = null;
+
+
 </script>
 </body>
 </html>

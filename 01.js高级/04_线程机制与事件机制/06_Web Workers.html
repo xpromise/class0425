@@ -26,7 +26,61 @@
     计算得到fibonacci数列中第n个数的值
     在主线程计算: 当位数较大时, 会阻塞主线程, 导致界面卡死
     在分线程计算: 不会阻塞主线程
+
+    1 1 2 3 5 8 13 21 34 55...
    */
+
+  function fibonacci(num) {
+    /*if (num < 3) {
+      return 1;
+    } else {
+      //       num - 2 +   num - 1
+      // num - 3 + num - 4 + num - 2 + num - 3
+      return fibonacci(num - 1) + fibonacci(num - 2);
+    }*/
+
+    return num < 3 ? 1 : fibonacci(num - 1) + fibonacci(num - 2);
+
+    /*// 第一个数
+    var a = 1;
+    // 第二个数
+    var b = 1;
+    // 要求的第三个数
+    var c = 0;
+
+    for (var i = 2; i < num; i++) {
+      // 第一个数 + 第二个数 = 第三个数
+      c = a + b;
+      // a变成了第二个数。（下次遍历的第一个数）
+      a = b;
+      // b变成了第三个数。（下次遍历的第二个数）
+      b = c;
+    }
+
+    return c;*/
+  }
+
+
+  document.getElementById('btn1').onclick = function () {
+    var value = document.getElementById('number').value;
+    var result = fibonacci(value);
+    console.log(result);
+  };
+
+  // 创建分线程
+  var worker = new Worker('./worker.js');
+
+  // 主线程要通知分线程干活
+  document.getElementById('btn2').onclick = function () {
+    var value = document.getElementById('number').value;
+    // 主线程要通知分线程干活
+    worker.postMessage(value);
+  };
+
+  // 主线程接收分线程的干完活的消息
+  worker.onmessage = function (event) {
+    console.log('主线程接收分线程的消息：', event.data);
+  }
 
 </script>
 </body>

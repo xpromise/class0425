@@ -15,15 +15,17 @@
   var getName = function () { alert (4);};
   function getName() { alert (5);}
 
-
   //请写出以下输出结果：
-  Foo.getName();
-  getName();
-  Foo().getName();
-  getName();
-  new Foo.getName();
-  new Foo().getName();
-  new new Foo().getName();
+  Foo.getName(); // 2
+  getName(); // 4
+  Foo().getName();  // 1
+  getName(); // 1
+  new Foo.getName(); // 2 -->  var fn = Foo.getName;  --> new fn()
+  new Foo().getName(); // 3  foo.getName()
+  // new ((new Foo()).getName)()
+  // new (foo.getName)()
+  // new (function () { alert (3);};)()  执行函数（输出3）、得到实例对象（没有用途）
+  new new Foo().getName(); // 3  var foo = new Foo()  --> foo.getName === function () { alert (3);};
 </script>
 </body>
 </html>

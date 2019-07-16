@@ -14,14 +14,33 @@
     console.log(o);
     return {
       fun: function (m) {
-        return fun(m, n);
+        var result = fun(m, n);
+        return result;
       }
     }
   }
+  /*
+    a = fun函数调用的返回值 = { fun : function (m) { return fun(m, n);} }
+    产生了闭包。在a对象中fun方法里面。里面有 n:0
+   */
   var a = fun(0);
+  /*
+    此时n的值读取的是闭包中的值，是0
+    函数内部调用fun(1, 0) --> 是全局的fun函数
+   */
   a.fun(1);
+  /*
+    此时闭包中的n还是0（因为a没变，n也没变）
+    fun(2, 0)
+   */
   a.fun(2);
+  /*
+    此时闭包中的n还是0（因为a没变，n也没变）
+    fun(3, 0)
+   */
   a.fun(3);
+
+  // undefined 0 0 0
 
   var b = fun(0).fun(1).fun(2).fun(3);
 

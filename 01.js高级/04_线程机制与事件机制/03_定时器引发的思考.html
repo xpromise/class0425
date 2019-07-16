@@ -18,6 +18,22 @@
   * 事件循环模型(后面讲)
 -->
 <script type="text/javascript">
+
+  var startTime = Date.now();
+
+  setInterval(function () {
+    var endTime = Date.now();
+    console.log('setTimeout()~', endTime - startTime);
+  }, 1000);
+
+  // alert(111);
+  for (var i = 0; i < 100000000; i++) {
+    var time = Date.now();
+  }
+
+
+
+
 </script>
 </body>
 </html>

@@ -44,9 +44,16 @@
   // Son.prototype = f; // Son.prototype.__proto__ === Father.prototype
 
   // 为了继承父类的原型上的方法
-  Son.prototype = new Father();
+  /*
+    {
+      constructor: Son,
+      __proto__: Object.prototype --> Father.prototype
+    }
+   */
+  Son.prototype.__proto__ = Father.prototype;
+  // Son.prototype = new Father();
   // 修正constructor指向
-  Son.prototype.constructor = Son;
+  // Son.prototype.constructor = Son;
 
   Son.prototype.setSex = function (sex) {
     this.sex = sex;

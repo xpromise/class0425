@@ -11,6 +11,33 @@
 2. 将函数作为实参传递给另一个函数调用
 -->
 <script type="text/javascript">
+// 1. 将函数作为另一个函数的返回值
+// 执行函数，返回一个新函数。这个fn1函数就叫做高阶函数
+function fn1() {
+  var _self = this;
+  function fn2() {
+    console.log(_self);
+  }
+  return fn2;
+}
+
+var f = fn1();
+f();
+
+// 2. 将函数作为实参传递给另一个函数调用
+// 将函数作为参数传给另外一个函数，delay函数也是高阶函数
+function delay(fn, time) {
+  setTimeout(function () {
+    debugger;
+    fn('hello atguigu');
+  }, time);
+}
+
+function showMsg(msg) {
+  console.log(msg);
+}
+
+delay(showMsg, 1000);
 
 </script>
 </body>

@@ -19,6 +19,46 @@
     1. 子类型的原型为父类型的一个实例对象
 -->
 <script type="text/javascript">
+
+  function Father(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  Father.prototype.setName = function (name) {
+    this.name = name;
+  };
+
+  Father.prototype.setAge= function (age) {
+    this.age = age;
+  };
+
+  function Son(name, age, sex) {
+    this.name = name;
+    this.age = age;
+    this.sex = sex;
+  }
+
+  // var f = new Father();  // f.__proto__ === Father.prototype
+  // console.log(f); // { name: 'undefined', age: 'undefined', __proto__: Father.prototype}
+  // Son.prototype = f; // Son.prototype.__proto__ === Father.prototype
+
+  // 为了继承父类的原型上的方法
+  Son.prototype = new Father();
+  // 修正constructor指向
+  Son.prototype.constructor = Son;
+
+  Son.prototype.setSex = function (sex) {
+    this.sex = sex;
+  };
+
+  // s1.__proto__.__proto__ === Father.prototype
+  // s1.__proto__ === Son.prototype === { name: 'undefined', age: 'undefined',  __proto__: Father.prototype}
+  var s1 = new Son('jack', 18, '男');
+  s1.setName('bob');
+  console.log(s1);
+  console.log(s1.constructor);
+
 </script>
 </body>
 </html>

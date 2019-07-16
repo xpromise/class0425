@@ -16,6 +16,39 @@
 -->
 <script type="text/javascript">
 
+  function Father(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  Father.prototype.setName = function (name) {
+    this.name = name;
+  };
+
+  Father.prototype.setAge= function (age) {
+    this.age = age;
+  };
+
+  function Son(name, age, sex) {
+    // 为了复用给实例对象添加属性代码
+    Father.call(this, name, age);
+    this.sex = sex;
+  }
+
+  // 为了继承父类的原型上的方法
+  Son.prototype = new Father();
+  // 修正constructor指向
+  Son.prototype.constructor = Son;
+
+  Son.prototype.setSex = function (sex) {
+    this.sex = sex;
+  };
+
+  var s1 = new Son('jack', 18, '男');
+  s1.setName('bob');
+  console.log(s1);
+  console.log(s1.constructor);
+
 </script>
 </body>
 </html>

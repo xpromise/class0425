@@ -27,6 +27,20 @@
 -->
 <script type="text/javascript">
 
+  const arr = [1, 2, 4, 3, 6];
+  // 展开数组
+  console.log(...arr);
+  const arr1 = [5, ...arr, 9];
+  console.log(arr1);
+
+  // 代表实参列表; 剩下所有参数
+  function fn(a, b, ...args) {
+    // console.log(arguments);
+    console.log(args);
+  }
+
+  fn(1, 2, 3, 4, 5);
+
 </script>
 
 </body>

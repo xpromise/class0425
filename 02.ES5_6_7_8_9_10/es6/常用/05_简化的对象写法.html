@@ -20,6 +20,29 @@
 -->
 <script type="text/javascript">
 
+  const r = Math.round(Math.random() * 255);
+  const g = Math.round(Math.random() * 255);
+  const b = Math.round(Math.random() * 255);
+  const a = 1;
+
+  const obj1 = {
+    r: r,
+    g: g,
+    b: b,
+    a: a
+  };
+
+  // 定义对象：对象简写
+  const obj2 = {
+    r, // 属性名和变量名相同，可以省略
+    g,
+    b,
+    a,
+    fn() { // 定义方法时，可以省略function关键字
+
+    }
+  }
+
 </script>
 </body>
 </html>

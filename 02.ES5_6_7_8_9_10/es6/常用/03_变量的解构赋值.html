@@ -17,6 +17,29 @@
 -->
 <script type="text/javascript">
 
+  const person = {name: 'jack', age: 18, sex: '男', hobby: '男', info: '100块都不给我', options: { option1: 123, option2: 456 }};
+
+  // const name = person.name;
+  // const age = person.age;
+
+  // 对象的解构赋值: 提取对象上同名属性，赋值给同名变量
+  // options : { option1, option2 } 对解构的options再次进行解构赋值
+  const { name, sex, hobby, age, info, aaa, options : { option1, option2 } } = person;
+
+  console.log(option1, option2);
+
+  const arr = [2, 5, 1, 3, 6];
+  // 数组的解构赋值
+  const [ a, b, d, e ] = arr;
+  console.log(a, b, d, e);
+
+  // 对函数的第一个参数进行解构赋值
+  function fn({name, age}, number) {
+    console.log(name, age, number);
+  }
+
+  fn(person, 123456);
+
 </script>
 </body>
 </html>

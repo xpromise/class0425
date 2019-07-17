@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+
+  /*var a = 1;
+  function fn() {
+    console.log(a); // undefined
+    var a = 2;
+  }
+  fn();*/
+
+  var a = 1;
+  function fn() {
+    // 暂时死区: 某个作用域中开始到let定义变量
+    // 暂时死区访问定义的变量会报错
+    console.log(a); // 报错 a is not defined
+    let a = 2;
+    let b = 3;
+  }
+  fn();
+
+</script>
+</body>
+</html>

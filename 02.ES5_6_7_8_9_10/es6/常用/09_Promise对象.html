@@ -43,9 +43,83 @@
 -->
 
 <script type="text/javascript">
+  /*console.log('开始执行全局代码');
+
+  // 回调函数层层嵌套，叫做回调地狱
+  setTimeout(() => {
+    console.log('setTimeout1()');
+    setTimeout(() => {
+      console.log('setTimeout2()');
+      setTimeout(() => {
+        console.log('setTimeout3()');
+      }, 1000);
+    }, 2000);
+  }, 3000);
+
+  console.log('全局代码执行完毕~');*/
+
+  /*
+    promise： 代表未来将要发生的事（异步操作）
+      异步编程的解决方案之一，解决回调地狱问题
+    特点：
+      1. pending 初始化状态
+      2. resolved / fulfilled 成功状态
+      3. rejected 失败状态
+   */
+
+  // 创建一个promise对象, 默认是pending状态
+
+  /*
+    new Promise(fn)
+      fn里面执行异步操作
+      当new Promise是就会立即调用fn函数。调用完成才可能会返回promise实例对象
+   */
+  const promise = new Promise((resolve, reject) => {
+    // 执行异步操作
+    setTimeout(() => {
+      console.log('setTimeout()');
+      const data = {name: 'jack', age: 18};
+
+      // promise对象状态只能有初始化变成成功/失败。不能由成功变失败，也不能由失败变成功
+      // 会将promise对象的状态由初始化状态改为成功的状态
+      // 调用resolve传入的参数，会作为成功的回调函数的参数
+      resolve(data);
+      // 会将promise对象的状态由初始化状态改为失败的状态。
+      // 定义失败状态的回调函数就不会报错，没有定义就报错
+      // 调用reject传入的参数，会作为失败的回调函数的参数
+      // reject('出错了~');
+    }, 1000)
+  });
+
+  console.log(promise);
+
+  /*promise.then((result) => {
+    // 等promise对象的状态变成成功的状态时触发
+    // 成功状态的回调函数
+    console.log('成功状态的回调函数');
+    console.log(result);
+  }, (error) => {
+    // 等promise对象的状态变成失败的状态时触发
+    // 失败状态的回调函数
+    console.log('失败状态的回调函数');
+    console.log(error);
+  })*/
+
+  // then / catch方法的返回值是一个promise对象
+  promise
+    .then((result) => {
+      // 等promise对象的状态变成成功的状态时触发
+      // 成功状态的回调函数
+      console.log('成功状态的回调函数');
+      console.log(result);
+    })
+    .catch((error) => {
+      // 等promise对象的状态变成失败的状态时触发
+      // 失败状态的回调函数
+      console.log('失败状态的回调函数');
+      console.log(error);
+    })
 
 </script>
-
 </body>
-
 </html>

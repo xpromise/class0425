@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+https://juejin.im/post/5c7c8e125188256365101c34#heading-11
+
+Array.prototype.flat()
+-->
+<script type="text/javascript">
+  // 数组降维、数组的扁平化
+  const arr = [[1, 2], [[[3]]], [[4], [[[[5]], 6]]]];
+
+  console.log(arr.flat(1));
+  console.log(arr.flat(Infinity));
+  /*
+    1. flat 全部降成1维
+    2. 可以传参，根据参数降维
+   */
+  Array.prototype.flat = function () {
+    // this 就指向要处理的数组  --> arr.flat()
+    let result = [];
+    /*this.forEach((item, index) => {
+      if (Array.isArray(item)) {
+        result = result.concat(item.flat());
+      } else {
+        result.push(item);
+      }
+    })*/
+    this.forEach((item) => Array.isArray(item) ? result = result.concat(item.flat()) : result.push(item));
+    return result;
+  }
+
+  Array.prototype.myFlat = function (num) {
+    // this 就指向要处理的数组  --> arr.flat()
+    num--;
+    if (num < 0) return this;
+    let result = [];
+    this.forEach((item, index) => {
+      if (Array.isArray(item)) {
+        result = result.concat(item.flat());
+      } else {
+        result.push(item);
+      }
+    })
+    // this.forEach((item) => Array.isArray(item) ? result = result.concat(item.myFlat(num)) : result.push(item));
+    return result;
+  }
+
+  console.log(arr.myFlat(1));
+  console.log(arr.myFlat(Infinity));
+
+
+
+</script>
+</body>
+</html>

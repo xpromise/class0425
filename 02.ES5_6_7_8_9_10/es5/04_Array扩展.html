@@ -23,6 +23,50 @@
    5. 根据arr产生一个新数组, 返回的每个元素要大于4
    6. 输出arr所有元素累加的结果
 */
+var arr = [1, 6, 8, 2, 1, 4, 6, 7, 3];
+// 1. 输出第一个6的下标
+console.log(arr.indexOf(6)); // 1
+console.log(arr.indexOf(10)); // -1
+// 2. 输出最后一个6的下标
+console.log(arr.lastIndexOf(6)); // 6
+// 3. 输出所有元素的值和下标
+/*$.each(arr, function (index, item) {});*/
+arr.forEach(function (item, index, arr) {
+  console.log(item, index);
+})
+// 4. 根据arr产生一个新数组,要求每个元素都比原来大10
+// 特点：1. 产生一个新数组  2. 不会修改原数组
+
+// 新数组特点： 1. 长度和原数组一样 2. 数组中的值往往不一样
+// 长度一样，值不一样
+var newArr = arr.map(function (item, index, arr) {
+  // 数组长度多少，就遍历几次
+  // 会作为新数组的每一项值
+  return item + 10;
+});
+console.log(arr);
+console.log(newArr);
+// 5. 根据arr产生一个新数组, 返回的每个元素要大于4
+// 新数组特点： 1. 长度和原数组往往不一致 2. 数组中的值一样
+// 值一样，长度不一样
+newArr = arr.filter(function (item, index, arr) {
+  // 保留返回值为true的元素
+  // false就过滤掉了
+  return item > 4;
+});
+console.log(arr);
+console.log(newArr);
+// 6. 输出arr所有元素累加的结果
+// 累加。 求值。 计算结果
+// 长度不一样，值不一样
+var result = arr.reduce(function (previousValue, currentValue, currentIndex, array) {
+  /*
+    previousValue 上一次遍历的返回值，初始化为0
+    currentValue 当前遍历的元素的值
+   */
+  return previousValue + currentValue;
+}, 0);
+console.log(result);
 
 </script>
 </body>

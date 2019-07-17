@@ -26,6 +26,32 @@
 -->
 <script type="text/javascript">
 
+  // 不存在变量提升
+  // console.log(a);
+  let a = 123;
+  // console.log(window.a); // 不在window上
+
+  // 不能重复声明
+  // let a = 456; // Uncaught SyntaxError: Identifier 'a' has already been declared
+
+  if (true) {
+    // 产生了块级作用域 --> {}   对象{}没有， if / for / switch / while...
+    let b = 456;
+    if (true) {
+      console.log(b);
+    }
+  }
+
+  let btns = document.querySelectorAll('button');
+
+  for (let i = 0; i < btns.length; i++) {
+    // debugger
+    var btn = btns[i];
+    btn.onclick = function () {
+      console.log(i);
+    }
+  }
+
 
 </script>
 </body>

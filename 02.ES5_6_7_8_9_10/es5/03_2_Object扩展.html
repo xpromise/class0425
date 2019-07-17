@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
 </head>
 <body>
 <!--
@@ -11,7 +11,27 @@
     * set propertyName(){} 用来监视当前属性值变化的回调函数
 -->
 <script type='text/javascript'>
+  var person = {
+    name: 'jack',
+    age: 18,
+    // sex属性的读取方法。（读取sex属性，调用这个方法，）
+    get sex() {
+      return this._sex;
+    },
+    // sex属性的设置方法
+    set sex(value) {
+      // console.log(this); // person
+      // console.log(value);
+      // this.sex = value;  死循环
+      this._sex = value;
+    },
+    _sex: '女'
+  };
 
+  console.log(person);
+  console.log(person.sex);
+  person.sex = '男';
+  console.log(person.sex);
 
 </script>
 </body>

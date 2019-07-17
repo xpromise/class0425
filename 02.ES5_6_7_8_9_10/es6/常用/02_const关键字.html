@@ -15,6 +15,23 @@
   * 保存不用改变的数据
 -->
 <script type="text/javascript">
+  const a = 123;
+  // a = 456; // Uncaught TypeError: Assignment to constant variable.
+
+  const person = {name: 'jack'};
+  person.name = 'bob';
+  console.log(person);
+
+  /*
+    let 用来定义变量
+    const 用来定义常量
+    var 就不在使用了~
+
+    场景：
+      1. 绝大部分量都使用let定义，只有确定不变的量使用const定义，80%以上的量都是用let定义的
+      2. 绝大部分量都使用const定义，只有确定可变的量使用let定义，80%以上的量都是用const定义的（使用）
+        默认使用const定义。只有将来值发生变化，再改成let
+   */
 
 </script>
 </body>

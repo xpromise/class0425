@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    使用promise，等一个异步操作做完成后再执行其他工作，并将异步操作的返回值传过去
+   */
+
+  console.log('开始执行代码~');
+
+  const promise = new Promise((resolve, reject) => {
+    console.log(111);
+    // 执行异步操作
+    setTimeout(() => {
+      console.log('异步操作执行完毕');
+      // 异步操作成功的数据
+      const data = [1, 2, 3, 4, 5];
+      // 调用resolve
+      resolve(data);
+    }, 1000);
+
+    console.log(222);
+  });
+
+  console.log('执行代码中~');
+
+  promise
+    .then((result) => {
+      console.log('成功了', result);
+    })
+    .catch((error) => {
+      console.log('失败了', error);
+    })
+
+  console.log('执行代码完毕~');
+
+
+</script>
+</body>
+</html>

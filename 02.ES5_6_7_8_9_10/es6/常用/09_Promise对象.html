@@ -106,6 +106,7 @@
   })*/
 
   // then / catch方法的返回值是一个promise对象
+  // 默认返回一个成功状态的promise对象。 当指定了promise对象返回值。promise对象的状态决定后面触发的函数
   promise
     .then((result) => {
       // 等promise对象的状态变成成功的状态时触发
@@ -118,7 +119,39 @@
       // 失败状态的回调函数
       console.log('失败状态的回调函数');
       console.log(error);
+
+      // 默认返回成功状态的promise对象，内部值为123
+      return 123;
+      // 返回一个promise对象
+      /*return new Promise((resolve, reject) => {
+        reject(111);
+      });*/
     })
+    .then((result) => {
+      console.log('result 111', result);
+    })
+    .catch((error) => {
+      console.log('error 111', error);
+    })
+
+
+  const promise1 = Promise.resolve(111);
+  const promise2 = Promise.reject(222);
+  console.log(promise1, promise2);
+
+  // 传入n个promise对象
+  // 只有所有promise对象变成成功状态，才会触发成功的回调
+  // 只要有一个失败了，就会触发失败的回调
+  const promise3 = Promise.all([promise1, promise]);
+
+  promise3
+    .then((result) => {
+      console.log('成功了~', result);
+    })
+    .catch((error) => {
+      console.log('失败了~', error);
+    })
+
 
 </script>
 </body>

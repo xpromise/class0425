@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    使用promise：有三个异步操作。同时执行三个异步操作，
+      等三个异步操作都执行成功了~就成功,
+      有一个失败了，就失败
+   */
+
+  const promise = new Promise((resolve, reject) => {
+
+    let successNum = 0;
+    const result = [];
+    // 同时执行三个异步操作
+    setTimeout(() => {
+      console.log('第一个异步执行完了~');
+      const data = 111;
+      result[0] = data;
+      successNum++;
+      if (successNum === 3) {
+        resolve(result);
+      }
+    }, 3000);
+
+    setTimeout(() => {
+      console.log('第二个异步执行完了~');
+      const data = 222;
+      result[1] = data;
+      successNum++;
+      if (successNum === 3) {
+        resolve(result);
+      }
+    }, 2000);
+
+    setTimeout(() => {
+      console.log('第三个异步执行完了~');
+      const data = 333;
+      result[2] = data;
+      successNum++;
+      if (successNum === 3) {
+        resolve(result);
+      }
+    }, 1000);
+
+
+
+  });
+
+  promise
+    .then((result) => {
+      // 三个异步都成功的，就触发成功回调
+      console.log('都完成了~', result);
+    })
+    .catch(() => {
+      // 有一个失败，就触发失败的回调
+      console.log('失败了~');
+    })
+
+
+
+
+
+
+</script>
+</body>
+</html>

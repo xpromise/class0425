@@ -15,10 +15,28 @@
 <!--
 1. Array.from(v) : 将伪数组对象或可遍历对象转换为真数组
 2. Array.of(v1, v2, v3) : 将一系列值转换成数组
-3. find(function(value, index, arr){return true}) : 找出第一个满足条件返回true的元素
-4. findIndex(function(value, index, arr){return true}) : 找出第一个满足条件返回true的元素下标
+3. Array.prototype.find(function(value, index, arr){return true}) : 找出第一个满足条件返回true的元素
+4. Array.prototype.findIndex(function(value, index, arr){return true}) : 找出第一个满足条件返回true的元素下标
 -->
 <script type="text/javascript">
+  const btns = document.querySelectorAll('button');
+  console.log(btns);
+
+  const arr = Array.from(btns);
+  console.log(arr);
+
+  const arr1 = Array.of(1, 2, 3, 4);
+  // const arr1 = [1, 2, 3, 4];
+  console.log(arr1);
+
+  const arr2 = [{age: 10}, {age: 12}, {age: 18}, {age: 13}, {age: 12}, {age: 11}, {age: 15}];
+  // 找到第一个年龄为12的
+  const result = arr2.find(item => item.age === 20);
+  console.log(result);
+
+  const result1 = arr2.findIndex(item => item.age === 12);
+  console.log(result1)
+
 
 </script>
 </body>

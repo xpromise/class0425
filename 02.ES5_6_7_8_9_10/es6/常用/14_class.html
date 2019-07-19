@@ -16,5 +16,62 @@
 -->
 <script type="text/javascript">
 
+  /*function Person(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  Person.prototype.setName = function (name) {
+    this.name = name;
+  };
+
+  function Son(name, age, sex) {
+    Person.call(this, name, age);
+    this.sex = sex;
+  }
+
+  Son.prototype.__proto__ = Person.prototype;
+
+  const p = new Person('jack', 18);
+  const s = new Son('bob', 20, '男');
+  console.log(p, s);*/
+
+  // console.log(Person);
+
+  // 类: 不存在提升
+  class Person {
+    // 类中方法，this指向实例对象
+    constructor(name, age) {
+      // 定义实例对象的属性
+      this.name = name;
+      this.age = age;
+    }
+    // 定义原型上的方法
+    setName(name) {
+      this.name = name;
+    }
+  }
+
+  // 定义Son类继承Person类
+  class Son extends Person {
+    // 当你使用extends继承时，你可以不定义constructor方法
+    // 如果你要定义constructor方法，必须在里面调用super
+    constructor(name, age, sex) {
+      super(name, age); // 调用父类构造方法
+      this.sex = sex;
+    }
+    setAge(age) {
+      this.age = age;
+    }
+  }
+
+  const p = new Person('jack', 18);
+  console.log(p);
+  p.setName('bob');
+  console.log(p);
+
+  const s = new Son('bob', 20, '男');
+  console.log(s);
+
 </script>
 </html>

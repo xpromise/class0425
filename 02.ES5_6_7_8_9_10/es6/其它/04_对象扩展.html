@@ -16,6 +16,25 @@
 -->
 
 <script type="text/javascript">
+  console.log(0 === -0); // 1 / x === 1 / y
+  console.log(NaN === NaN); // return x !=== x;
+  console.log(Object.is(0, -0));
+  console.log(Object.is(NaN, NaN));
+
+  const obj1 = {
+    name: 'jack'
+  }
+  const obj3 = {
+    sex: '男'
+  }
+  const obj2 = {
+    age: 13
+  }
+
+  const obj4 = Object.assign(obj2, obj1, obj3);
+  console.log(obj4 === obj2);
+  console.log(obj2);
+
 
 </script>
 </body>

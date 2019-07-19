@@ -50,6 +50,22 @@
   result = iterator.next(222);
   console.log(result);
 
+  const obj = {name: 'jack', age: 18};
+
+  // 给对象部署iterator接口。 对象就能使用for of遍历， 三点运算符
+  // 将来使用babel会自动部署。
+  Object.prototype[Symbol.iterator] = function* () {
+    // this就是调用函数的对象
+    for (const key in this) {
+      yield this[key];
+    }
+  }
+
+  for (const value of obj) {
+    console.log(value);
+  }
+
+  console.log(...obj);
 
 </script>
 </body>

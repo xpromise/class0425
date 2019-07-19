@@ -29,6 +29,89 @@
 
   <script type="text/javascript">
 
+    function iteratorObj(arr) {
+      let index = 0;
+
+      return {
+        next() {
+          return index < arr.length ? {
+            value: arr[index++],
+              done: false
+          } : {
+            value: undefined,
+            done: true
+          }
+          /*if (index < arr.length) {
+            return {
+              value: arr[index++],
+              done: false
+            }
+          } else {
+            return {
+              value: undefined,
+              done: true
+            }
+          }*/
+        }
+      }
+    }
+
+    const arr = [1, 2, 3];
+
+    const iterator = iteratorObj(arr);
+    let result = iterator.next(); // 遍历第一个元素
+    console.log(result); // { value: 1, done: false }
+    result = iterator.next(); // 遍历第二个元素
+    console.log(result);
+    result = iterator.next(); // 遍历第三个元素
+    console.log(result);
+    result = iterator.next(); // 遍历第四个元素
+    console.log(result);
+    result = iterator.next(); // 遍历结束
+    console.log(result); // { value: undefined, done: true}
+
+    /*
+      Symbol(Symbol.iterator) 方法就是iterator接口。但凡部署这个接口，就能使用for of遍历
+      三点运算符，实际上使用的就是iterator接口进行遍历的。
+      所以：只要部署了iterator接口，就能使用for of遍历，也能使用三点运算符
+
+      总结：
+        for 一般用于数组。 性能最好，但是麻烦。 追求性能时使用（框架）
+        for in 一般用于对象
+        for of 当不知道要遍历什么数据类型时，考虑使用for of
+        forEach 用于数组。 写简单。性能稍差
+        while 根据条件循环遍历
+     */
+    const array = [1, 2, 3];
+    console.log(array);
+
+    for (const value of array) {
+      console.log(value);
+    }
+
+    const string = 'hello atguigu';
+    console.log(string.__proto__);
+    console.log(...string);
+
+    for (const value of string) {
+      // console.log(value);
+    }
+
+    function fn() {
+      console.log(arguments);
+      console.log(...arguments);
+    }
+    fn(2, 3, 4);
+
+    // 对象需要手动部署iterator接口。
+    /*const person = {name: 'jack'};
+    console.log(person);
+    for (const value of person) {
+      console.log(value);
+    }*/
+
+
+
   </script>
 </body>
 </html>

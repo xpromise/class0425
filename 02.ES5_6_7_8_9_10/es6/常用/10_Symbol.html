@@ -32,6 +32,27 @@
 
 
 <script type="text/javascript">
+  /*
+    1. 扩展了新的基本数据类型 symbol
+    2. 特点： 唯一的（每次创建symbol的值都不一样）
+    3. 用途： 一般用来作为对象的唯一的属性
+   */
+  const s1 = Symbol('age');
+  const s2 = Symbol('sex');
+  console.log(s1 === s2); // Symbol()
+  console.log(typeof s1);
+
+  const person = {
+    name: 'jack',
+    [s1]: 18,
+    [s2]: '男'
+  };
+
+  person[s1] = 19;
+
+  console.log([]);
+
+  console.log(person);
 
 </script>
 

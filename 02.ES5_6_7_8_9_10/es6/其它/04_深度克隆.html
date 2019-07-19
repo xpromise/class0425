@@ -32,6 +32,95 @@
         5). 深拷贝包含函数数据的对象/数组
 -->
 <script type="text/javascript">
+  // 浅克隆
+  // const person = {name: 'jack', age: 18, options: { option1: '男', option2: '女' }};
+  // const obj = person;
+  // obj.age++;
+  // console.log(person);
+  // 浅克隆. 直接属性时没问题的，属性的属性就有问题了~
+  // const newObj = Object.assign({}, person);
+  // newObj.age++;
+  // newObj.options.option1 = '男~~~~';
+  // console.log(newObj);
+  // console.log(person);
+
+  /*
+    深度克隆：完全创建一个新对象，对新对象做任何操作，都不能影响/修改原对象.
+      1. 利用json
+        优势: 使用方便
+        缺点: 不能转换函数数据
+      2. 要求所有数据都要深度克隆（包括函数）
+        目标：针对的是引用数据类型
+          对象 ✔
+          数组 ✔
+          函数 ❌
+   */
+
+  /*
+  const obj1 = {name: 'jack', age: 18, options: { option1: '男', option2: '女' }, setName() {}};
+
+  // 装换成json字符串，此时和原对象没有任何联系了
+  const json = JSON.stringify(obj1);
+  // 转换成js对象，此时所有数据都要重新创建，产生新对象里的所有数据都是新的（只是和之前的值一样而已）
+  const newObj1 = JSON.parse(json);
+
+  newObj1.options.option1 = '男~~~~';
+  console.log(obj1);
+  console.log(newObj1);
+  */
+
+  // const obj = {};
+  // const arr = [];
+
+  // console.log(Object.prototype.toString.call(arr).slice(8, -1)); // '[object Array]'
+  // 检测toString方法的this的值的类型
+  // console.log(obj.toString()); // '[object Object]'
+  // console.log(arr);
+
+
+  // 封装了检测数据类型的方法
+  function checkType(target) {
+    return Object.prototype.toString.call(target).slice(8, -1);
+  }
+
+  // 实现深度克隆
+  function deepClone(target) {
+    // 创建一个新的
+    let result = null;
+    // 检测目标对象的数据类型
+    const type = checkType(target);
+    if (type === 'Array') {
+      result = [];
+    } else if (type === 'Object') {
+      result = {};
+    } else {
+      return target;
+    }
+    // 遍历目标对象
+    for (const key in target) {
+      /*let value
+      // 如果原对象的属性值是引用数据类型，还得继续对这个对象克隆
+      if (checkType(target[key]) === 'Object' || 'Array') {
+        value = deepClone(target[key])
+      } else {
+        value = target[key]
+      }
+
+      // 将原对象的属性克隆到新对象上
+      result[key] = value;*/
+      result[key] = deepClone(target[key]);
+    }
+    // 返回一个深度克隆后的
+    return result;
+  }
+
+  const obj1 = {a: 123, b: true, c() {}, d: { e: 123, f: 456 }, g: [1, null, undefined]};
+  const newObj = deepClone(obj1);
+  console.log(obj1, newObj);
+  newObj.a = 200;
+  newObj.d.e = 200;
+  newObj.g[0] = 200;
+  console.log(obj1, newObj);
 
 </script> 
 </body>

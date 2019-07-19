@@ -25,7 +25,40 @@
 <script type="text/javascript" src="./js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
 
-</script>
+  async function asyncFn() {
+    console.log('函数开始执行了~');
 
+    /*await 123;
+    await setTimeout(() => {
+      console.log('定时器执行完了~');
+    }, 1000);*/
+    /*
+      await只会遇到promise对象等
+        只有pending状态的promise对象才会等。
+        如果是resolved状态的promise对象，就继续执行，不等
+        如果是rejected状态的promise对象，就直接退出函数
+
+      result 的值就是 resolve方法传入的参数
+     */
+    const result = await new Promise((resolve, reject) => {
+      console.log('promise对象内部函数执行了~');
+      reject(111);
+    });
+
+    console.log(result);
+
+    console.log('函数执行完毕了~');
+
+  }
+  /*
+    执行async函数，返回是一个promise对象，默认是pending状态
+      当async函数代码全部执行完了，就会变成成功状态
+      当async函数中的promise对象有一个变成失败状态，就会变成失败状态
+   */
+  const result = asyncFn();
+  console.log(result);
+
+
+</script>
 </body>
 </html>

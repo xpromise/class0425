@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    使用async： 先执行异步操作A，等异步操作A做完了，在执行异步操作B，等异步操作B做完了，最后执行异步操作C
+   */
+
+  async function asyncFn() {
+    const result1 = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log('异步操作A做完了');
+        const data = 'A';
+        resolve(data);
+      }, 1000);
+    })
+
+    const result2 = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log('异步操作B做完了');
+        const data = 'B';
+        resolve(data);
+      }, 1000);
+    })
+
+    const result3 = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log('异步操作C做完了');
+        const data = 'C';
+        resolve(data);
+      }, 1000);
+    })
+    
+    console.log(result1, result2, result3);
+    
+  }
+
+  asyncFn();
+
+</script>
+</body>
+</html>

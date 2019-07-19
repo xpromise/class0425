@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  /*
+    使用generator： 先执行异步操作A，等异步操作A做完了，在执行异步操作B，等异步操作B做完了，最后执行异步操作C
+   */
+
+
+  /*function* generator() {
+    setTimeout(() => {
+      console.log('异步操作A做完了');
+      const data = 'A';
+      // 接着执行下面代码。第二个异步操作
+      iterator.next(data); // 已经声明过了，再使用。是可以的
+    }, 1000);
+
+    const result1 = yield
+
+    setTimeout(() => {
+      console.log('异步操作B做完了');
+      const data = 'B';
+
+      // 接着执行下面代码。第三个异步操作
+      iterator.next(data);
+    }, 2200);
+
+    const result2 = yield
+
+    setTimeout(() => {
+      console.log('异步操作C做完了');
+      const data = 'C';
+      iterator.next(data);
+    }, 3330);
+
+    const result3 = yield
+    // 使用以上异步操作获取的数据
+    console.log(result1, result2, result3);
+  }*/
+
+  function* generator() {
+
+    const result1 = yield setTimeout(() => {
+      console.log('异步操作A做完了');
+      const data = 'A';
+      // 接着执行下面代码。第二个异步操作
+      iterator.next(data); // 已经声明过了，再使用。是可以的
+    }, 1000);
+
+    const result2 = yield setTimeout(() => {
+      console.log('异步操作B做完了');
+      const data = 'B';
+
+      // 接着执行下面代码。第三个异步操作
+      iterator.next(data);
+    }, 2200);
+
+    const result3 = yield setTimeout(() => {
+      console.log('异步操作C做完了');
+      const data = 'C';
+      iterator.next(data);
+    }, 3330);
+
+    // 使用以上异步操作获取的数据
+    console.log(result1, result2, result3);
+  }
+  // console.log(iterator); // 报错，未声明使用变量
+  const iterator = generator();
+  // 开始执行第一个异步操作
+  iterator.next();
+
+</script>
+</body>
+</html>

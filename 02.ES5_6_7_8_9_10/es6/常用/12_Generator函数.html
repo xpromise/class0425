@@ -28,6 +28,27 @@
   -->
 <script type="text/javascript" src="./js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
+  /*
+    1. 状态机、可暂停函数、惰性函数
+   */
+  function* generator() {
+    console.log('函数开始执行了~');
+    // 暂停
+    const result = yield 123;
+    console.log(result); // 222
+
+    console.log('函数执行完毕了~');
+  }
+
+  // 执行generator函数，不会执行里面的代码，而是返回一个iterator对象
+  const iterator = generator();
+  console.log(iterator);
+  // 开始执行函数代码
+  let result = iterator.next(111);
+  console.log(result);
+  // 继续执行函数代码
+  result = iterator.next(222);
+  console.log(result);
 
 
 </script>

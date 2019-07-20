@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    html,body{
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<h1 id="title">这是我iframe网址</h1>
+<iframe id="my-iframe" src="http://localhost:5000/login.html" frameborder="0" width="100%" height="100%"></iframe>
+<!--<iframe src="https://www.baidu.com" frameborder="0" width="100%" height="100%"></iframe>-->
+<script type="text/javascript">
+  // 获取iframe标签
+  const myIframe = document.getElementById('my-iframe');
+  console.log(myIframe);
+  // iframe里面嵌套网址的document对象
+  console.log(myIframe.contentDocument);
+  // iframe里面嵌套网址的window对象
+  console.log(myIframe.contentWindow);
+
+  console.log(window);
+
+  const iDocument = myIframe.contentWindow.document;
+
+  console.log(iDocument.getElementById('btn'));
+</script>
+</body>
+</html>

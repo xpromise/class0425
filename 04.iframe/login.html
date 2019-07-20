@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+</head>
+<body>
+<h1>用户登录</h1>
+<form action="#">
+  用户名: <input type="text" id="username"> <br>
+  密码: <input type="password" id="password"> <br>
+  <input type="submit" value="登录">
+</form>
+<script type="text/javascript">
+  console.log(window === window.parent);
+  console.log(window === window.top);
+  console.log(window.parent === window.top);
+  /*
+    window 指的是当前页面的window对象
+    window.parent 指的是当前页面上一个iframe的window对象
+    window.top 指的是最外层页面的window对象
+   */
+  // 怎么样知道当前网页被非法网址使用iframe嵌套了~
+  if (window !== window.top) {
+    // 说明网址被iframe嵌套了
+    alert('被非法网址嵌套了~');
+  }
+  console.log(window.parent.document.getElementById('title'));
+</script>
+</body>
+</html>

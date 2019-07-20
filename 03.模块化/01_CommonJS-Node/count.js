@@ -5,3 +5,4 @@ function count(x, y) {
 
 // 暴露出去
 module.exports = count;
+// module.exports.count = count;

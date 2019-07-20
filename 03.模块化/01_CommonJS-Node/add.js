@@ -11,3 +11,14 @@ function mul(x, y) {
 exports.add = add;
 exports.mul = mul;
 
+// 以下使用是错误的
+/*exports = {
+  add,
+  mul
+}*/
+
+/*module.exports = {
+  add,
+  mul
+}*/
+

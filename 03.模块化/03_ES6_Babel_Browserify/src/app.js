@@ -21,6 +21,7 @@
           ]
         }
       - 下载
+        npm init -y 不能有中文
         npm install --save-dev @babel/core @babel/cli @babel/preset-env
       - 运行
         npx babel ./src -d ./build

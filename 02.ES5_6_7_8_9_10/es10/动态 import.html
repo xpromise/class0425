@@ -6,11 +6,14 @@
 </head>
 <body>
 <button id="btn">按钮</button>
+<script type="text/javascript" src="a.js"></script>
 <script type="text/javascript">
-  // 按需加载
   document.getElementById('btn').onclick = function () {
-    // 只会加载一次
-    import('./a.js');
+    // 点击按钮再加载b.js文件
+    // 返回值是promise对象 文件加载成功promise对象的状态就会变成成功状态，反之就是失败状态
+    // 文件只能加载一次
+    const result = import('./b.js');
+    console.log(result);
   }
 </script>
 </body>

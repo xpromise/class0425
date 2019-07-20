@@ -42,7 +42,7 @@
      */
     const result = await new Promise((resolve, reject) => {
       console.log('promise对象内部函数执行了~');
-      reject(111);
+      resolve(111);
     });
 
     console.log(result);

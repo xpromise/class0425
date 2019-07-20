@@ -26,6 +26,22 @@
 -->
 
 <script type="text/javascript">
+  // 无序不可重复的多个value的集合体
+  const s1 = new Set([1, 2, 3, 5, 8, 7, 1, 2]); // 自动去重
+  console.log(s1);
+
+  s1.add(4);
+  console.log(s1);
+
+  // 应用：数组去重
+  const arr = [1, 2, 3, 5, 8, 7, 1, 2];
+  console.log([...new Set(arr)]); // 一行代码去重
+
+  // 无序的 key不重复的多个key-value的集合体
+  // 对象的key只能是string类型
+  // 但是Map的key可以为任意数据类型
+  const m1 = new Map([['name', 'jack'], [{name: 'bob'}, 123], [function () {}, true]]);
+  console.log(m1);
 
 </script>
 </body>

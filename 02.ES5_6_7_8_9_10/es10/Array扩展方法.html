@@ -11,48 +11,54 @@ https://juejin.im/post/5c7c8e125188256365101c34#heading-11
 Array.prototype.flat()
 -->
 <script type="text/javascript">
-  // 数组降维、数组的扁平化
-  const arr = [[1, 2], [[[3]]], [[4], [[[[5]], 6]]]];
+  // 数组的扁平化： 将多维数组变成一维数组
+  const arr = [1, [2], [[3]], [[[4]]], [[5], [[6]]]];
 
-  console.log(arr.flat(1));
-  console.log(arr.flat(Infinity));
-  /*
-    1. flat 全部降成1维
-    2. 可以传参，根据参数降维
-   */
-  Array.prototype.flat = function () {
-    // this 就指向要处理的数组  --> arr.flat()
-    let result = [];
-    /*this.forEach((item, index) => {
-      if (Array.isArray(item)) {
-        result = result.concat(item.flat());
-      } else {
-        result.push(item);
-      }
-    })*/
-    this.forEach((item) => Array.isArray(item) ? result = result.concat(item.flat()) : result.push(item));
-    return result;
-  }
+  console.log(arr.toString().split(','));
 
-  Array.prototype.myFlat = function (num) {
-    // this 就指向要处理的数组  --> arr.flat()
-    num--;
-    if (num < 0) return this;
+  const newArr = arr.flat(Infinity);
+  console.log(newArr);
+
+  // 自定义实现
+  // 一次性变成1维
+  /*Array.prototype.myFlat = function () {
+    // 返回一个新数组
     let result = [];
-    this.forEach((item, index) => {
+    // 遍历数组
+    this.forEach((item) => {
+      // 判断值是否是数组，如果是数组，要去掉数组，取里面的值
       if (Array.isArray(item)) {
-        result = result.concat(item.flat());
+        const newItem = item.myFlat();
+        result = result.concat(newItem);
       } else {
         result.push(item);
       }
     })
-    // this.forEach((item) => Array.isArray(item) ? result = result.concat(item.myFlat(num)) : result.push(item));
+
     return result;
-  }
+  };*/
 
-  console.log(arr.myFlat(1));
-  console.log(arr.myFlat(Infinity));
+  Array.prototype.myFlat = function (count) {
+    // count控制递归的次数
+    count--;
+    if (count < 0) return this;
+    // 返回一个新数组
+    let result = [];
+    // 遍历数组
+    this.forEach((item) => {
+      // 判断值是否是数组，如果是数组，要去掉数组，取里面的值
+      if (Array.isArray(item)) {
+        const newItem = item.myFlat(count);
+        result = result.concat(newItem);
+      } else {
+        result.push(item);
+      }
+    })
 
+    return result;
+  };
+
+  console.log(arr.myFlat(3));
 
 
 </script>

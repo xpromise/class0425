@@ -8,7 +8,7 @@ const path = require('path');
 
 console.log(__dirname + '\\05.Buffer.js');
 
-const filepath1 = path.resolve(__dirname, '05.Buffer.js'); // 一定会返回一个绝对路径
+const filepath1 = path.resolve(__dirname, '../','05.Buffer.js'); // 一定会返回一个绝对路径
 console.log(filepath1);
 
 const filepath2 = path.join('dir', '05.Buffer.js');

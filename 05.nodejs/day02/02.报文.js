@@ -9,6 +9,11 @@
       Referer: https://www.baidu.com/ 请求来源的地址： 防盗链、广告计费
       content-type: application/x-www-form-urlencoded  代表使用form表单发送的请求，通常是POST请求
       Connection: keep-alive 保持TCP长连接
+      请求方式： GET（查） POST（增） PUT（改） DELETE（删）
+      请求地址： http://域名/ip:端口号/路由路径?查询字符串
+        https 443
+        http 80
+        index.html
       请求参数：
         query string 查询字符串  ?key=value&key=value  --> GET
         body 请求体参数 key=value&key=value  --> POST
@@ -38,7 +43,6 @@
           资源找不到  404
         5xx
           服务器内部错误 500
-
 
 
  */

@@ -1,29 +1,19 @@
+/*
+  step 3 : 根据获取的请求信息处理请求。分析不同请求
+ */
 // 引入http模块
 const http = require('http');
 
-const querystring = require('querystring');
-
-// 保存用户数据的容器
-const users = [];
-/*
-  1. 收集请求信息： method url data
-  2. 根据请求信息返回相应的响应
- */
 // 创建http服务
 const server = http.createServer(async (req, res) => {
-  // 业务逻辑
   // 获取请求方式
-  const { method } = req;
+  const { method } = req; // 等于 const method = req.method;
   // 获取请求地址
-  const [url, query] = req.url.split('?');
-  // 获取请求体参数
+  const [url, query] = req.url.split('?'); // 等于 const [url, query] = ['/login', 'username=123']
+  // 获取post请求体参数
   const body = await getBodyData(req);
-  // promise.then((body) => {}))
-  console.log(body); // username=jack&password=123
 
-  // 默认设置
-  res.setHeader('Content-type', 'text/plain;charset=utf8');
-
+  // 目前应用只处理POST请求
   if (method === 'POST') {
     // 判断是否是登录请求
     if (url === '/login') {
@@ -31,24 +21,13 @@ const server = http.createServer(async (req, res) => {
     }
     // 判断是否是注册请求
     if (url === '/register') {
-      // 验证用户数据
-      const { username, password, rePassword, phone } = body;
-      if (password !== rePassword) {
-        // 返回错误提示
-        res.end('两次输入密码不一致，请重新输入');
-        return;
-      }
-      // 用户保存起来
-      users.push({username, password, rePassword, phone});
-      // 返回注册成功
-      res.end('注册成功~');
-      return;
+
     }
   }
 
-  // 统一返回404
+  // 如果以上都不满足，统一返回404
   res.writeHead(404, {
-    // 'content-type': 'text/plain;charset=utf8'
+    'content-type': 'text/plain;charset=utf8'
   });
   res.end(url + '该资源未找到');
 

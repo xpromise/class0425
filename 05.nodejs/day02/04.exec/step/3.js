@@ -21,7 +21,7 @@ const server = http.createServer(async (req, res) => {
     }
     // 判断是否是注册请求
     if (url === '/register') {
-
+      
     }
   }
 

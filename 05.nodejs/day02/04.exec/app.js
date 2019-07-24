@@ -1,8 +1,6 @@
 // 引入http模块
 const http = require('http');
-
 const querystring = require('querystring');
-
 const fs = require('fs');
 const path = require('path');
 
@@ -79,7 +77,7 @@ const server = http.createServer(async (req, res) => {
         // 持久化存储用户数据
         users.push(userData);
         // 修改
-        await writeFile(users);
+        writeFile(users);
         // 返回注册成功
         res.end('注册成功~');
       }

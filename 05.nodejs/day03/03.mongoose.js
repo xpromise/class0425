@@ -16,7 +16,6 @@ const promise = new Promise((resolve, reject) => {
   });
 });
 
-
 promise
   .then(() => {
     // 数据库连接成功了~

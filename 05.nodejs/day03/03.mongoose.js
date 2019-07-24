@@ -51,7 +51,7 @@ promise
       phone: '11111111111',
       hobby: [],
       info: '练习2年半的练习生~'
-    })
+    });
     // 保存文档数据
     document.save();
 

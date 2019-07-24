@@ -1,3 +1,4 @@
+/*
 // 切换到test数据库 （如果没有，就会新建： 里面至少存储一条数据才会显示）
 use test
 use class0425_test
@@ -12,5 +13,4 @@ show dbs
 db.students.insert({name: 'jack', age: 18})
 // 查找数据
 db.students.find({name: 'jack'})
-
-
+ */

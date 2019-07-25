@@ -1,11 +1,8 @@
 // 引入http模块
 const http = require('http');
 const querystring = require('querystring');
-const fs = require('fs');
-
-const path = require('path');
 // 对象的解构赋值
-const { exec } = require('./db/mysql');
+const { exec, escape } = require('./db/mysql');
 
 // 创建http服务
 const server = http.createServer(async (req, res) => {
@@ -29,21 +26,40 @@ const server = http.createServer(async (req, res) => {
           1. 用户名错误就返回用户名找不到，密码错误就返回密码错误
           2. 用户名或密码错误，返回用户名或密码错误
        */
-      const { username, password } = body;
-      // 找到指定用户
-      const sql = `select username, password from users where username='${username}' limit 1`;
-      const result = await exec(sql);
+      let { username, password } = body;
+      username = escape(username); // 'jack\' -- '
+      password = escape(password);
 
-      if (result.length) {
-        // 找到了指定用户
-        if (result[0].password === password) {
-          // 登录成功
+      try {
+        // 放置可能出错代码。一旦出错了，try中就终止运行，跳转到catch中执行
+        // 找到指定用户
+        const sql = `select username, password from users where username='${username}' and password='${password}' limit 1`;
+        console.log(sql); // select username, password from users where username='jack'-- ' ' and password='' limit 1
+
+        const result = await exec(sql);
+
+        /*if (result.length) {
+          // 找到了指定用户
+          if (result[0].password === password) {
+            // 登录成功
+            res.end('登录成功');
+          } else {
+            res.end('密码错误');
+          }
+        } else {
+          res.end('用户名找不到');
+        }*/
+
+        if (result.length) {
+          // 找到了指定用户
           res.end('登录成功');
         } else {
-          res.end('密码错误');
+          res.end('用户名或密码错误');
         }
-      } else {
-        res.end('用户名找不到');
+      } catch (e) {
+        // 处理错误
+        // sql语法
+        res.end('用户名或密码错误 sql注入');
       }
 
       return;

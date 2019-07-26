@@ -9,6 +9,10 @@ const http = require('http');
     3. 使用：
       - 设置
         res.setHeader('set-cookie', `username=jack;max-age=${3600*24*7};httpOnly;path=/`);
+          username=jack;  key=value;
+          max-age=${3600*24*7}; cookie在客户端保存的时间，单位s
+          httpOnly; 只能在服务端获取，客户端不能获取（没有设置的可以在客户端通过document.cookie获取）
+          path=/ 只在 / 路径和子路径下生效，一般不改
       - 获取/解析
         req.headers.cookie
  */

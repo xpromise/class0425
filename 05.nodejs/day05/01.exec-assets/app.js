@@ -1,6 +1,8 @@
 // 引入http模块
 const http = require('http');
 const querystring = require('querystring');
+const { readFile, createReadStream } = require('fs');
+const { resolve } = require('path');
 // 对象的解构赋值
 const { exec, escape } = require('./db/mysql');
 
@@ -13,12 +15,11 @@ const server = http.createServer(async (req, res) => {
   const [url, query] = req.url.split('?');
   // 获取请求体参数
   const body = await getBodyData(req);
-  // promise.then((body) => {}))
-  // console.log(body); // username=jack&password=123
   // 默认设置
-  res.setHeader('Content-type', 'text/plain;charset=utf8');
 
   if (method === 'POST') {
+
+
     // 判断是否是登录请求
     if (url === '/login') {
       /*
@@ -30,10 +31,14 @@ const server = http.createServer(async (req, res) => {
       username = escape(username); // 'jack\' -- '
       password = escape(password);
 
+      // console.log(username, password);
+      res.setHeader('Content-type', 'text/plain;charset=utf8');
+
       try {
         // 放置可能出错代码。一旦出错了，try中就终止运行，跳转到catch中执行
         // 找到指定用户
-        const sql = `select username, password from users where username='${username}' and password='${password}' limit 1`;
+        // 现在去掉引号，因为防止sql注入，会将引号转义
+        const sql = `select username, password from users where username=${username} and password=${password} limit 1`;
         console.log(sql); // select username, password from users where username='jack'-- ' ' and password='' limit 1
 
         const result = await exec(sql);
@@ -49,8 +54,12 @@ const server = http.createServer(async (req, res) => {
           res.end('用户名找不到');
         }*/
         if (result.length) {
+          // 重定向
+          res.writeHead(302, {
+            'location': 'http://localhost:3000/user.html' // 重定向的网址
+          });
           // 找到了指定用户
-          res.end('登录成功');
+          res.end();
         } else {
           res.end('用户名或密码错误');
         }
@@ -64,6 +73,7 @@ const server = http.createServer(async (req, res) => {
     }
     // 判断是否是注册请求
     if (url === '/register') {
+
       // 验证用户数据
       const { username, password, rePassword, phone } = body;
       if (password !== rePassword) {
@@ -93,9 +103,50 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // 通过自己服务器打开页面
+  if (method === 'GET') {
+    res.setHeader('Content-type', 'text/html;charset=utf8');
+    if (url === '/login.html') {
+      // 返回login.html文件
+      const filepath = resolve(__dirname, './public', 'login.html');
+      /*readFile(filepath, (err, data) => {
+        if (err) console.log(err);
+        else res.end(data);
+      })*/
+      const rs = createReadStream(filepath);
+      rs.pipe(res);
+
+      return;
+    }
+    if (url === '/register.html') {
+      // 返回register.html文件
+      const filepath = resolve(__dirname, './public', 'register.html');
+      /*readFile(filepath, (err, data) => {
+        if (err) console.log(err);
+        else res.end(data);
+      })*/
+      const rs = createReadStream(filepath);
+      rs.pipe(res);
+
+      return;
+    }
+    if (url === '/user.html') {
+      // 返回register.html文件
+      const filepath = resolve(__dirname, './public', 'user.html');
+      /*readFile(filepath, (err, data) => {
+        if (err) console.log(err);
+        else res.end(data);
+      })*/
+      const rs = createReadStream(filepath);
+      rs.pipe(res);
+
+      return;
+    }
+  }
+
   // 统一返回404
   res.writeHead(404, {
-    // 'content-type': 'text/plain;charset=utf8'
+    'content-type': 'text/plain;charset=utf8'
   });
   res.end(url + '该资源未找到');
 

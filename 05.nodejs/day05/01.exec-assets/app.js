@@ -18,7 +18,7 @@ const server = http.createServer(async (req, res) => {
   // 默认设置
 
   if (method === 'POST') {
-
+    res.setHeader('Content-type', 'text/plain;charset=utf8');
 
     // 判断是否是登录请求
     if (url === '/login') {
@@ -28,11 +28,8 @@ const server = http.createServer(async (req, res) => {
           2. 用户名或密码错误，返回用户名或密码错误
        */
       let { username, password } = body;
-      username = escape(username); // 'jack\' -- '
+      username = escape(username);
       password = escape(password);
-
-      // console.log(username, password);
-      res.setHeader('Content-type', 'text/plain;charset=utf8');
 
       try {
         // 放置可能出错代码。一旦出错了，try中就终止运行，跳转到catch中执行
@@ -106,6 +103,7 @@ const server = http.createServer(async (req, res) => {
   // 通过自己服务器打开页面
   if (method === 'GET') {
     res.setHeader('Content-type', 'text/html;charset=utf8');
+
     if (url === '/login.html') {
       // 返回login.html文件
       const filepath = resolve(__dirname, './public', 'login.html');

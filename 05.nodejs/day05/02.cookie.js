@@ -15,6 +15,16 @@ const http = require('http');
           path=/ 只在 / 路径和子路径下生效，一般不改
       - 获取/解析
         req.headers.cookie
+    4. 缺点：
+      - 存储容量小  4kb
+      - 传输流量多
+      - 安全性较低
+  session
+    存储在服务端
+    存储容量大
+    传输流量小。只产生一个cookie
+    安全性较高
+
  */
 
 const server = http.createServer((req, res) => {

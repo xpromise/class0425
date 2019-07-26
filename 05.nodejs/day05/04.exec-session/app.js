@@ -6,6 +6,9 @@ const { resolve } = require('path');
 // 对象的解构赋值
 const { exec, escape } = require('./db/mysql');
 
+// 创建存储所有session数据的容器
+const session_data = {};
+
 // 创建http服务
 const server = http.createServer(async (req, res) => {
   // 业务逻辑
@@ -17,6 +20,28 @@ const server = http.createServer(async (req, res) => {
   await getBodyData(req);
   // 获取cookie
   getCookies(req);
+
+  let sessionId = req.cookies.session_id;
+  if (sessionId) {
+    /*if (session_data[sessionId]) {
+      // 说明用户一定登录过
+      req.session = session_data[sessionId];
+    } else {
+      // 说明返回过session_id，但是还没有存储过数据，将来要储存数据
+      session_data[sessionId] = {};
+      req.session = session_data[sessionId];
+    }*/
+    if (!session_data[sessionId]) {
+      // 说明之前用户登录过，但是由于服务器重启，导致内存数据全部清空。
+      // 说明返回过session_id，但是还没有存储过数据，将来要储存数据
+      session_data[sessionId] = {};
+    }
+  } else {
+    // 没有session_id， 创建一个session_id
+    sessionId = `${Date.now()}_${Math.random()}`;
+    session_data[sessionId] = {};
+  }
+  req.session = session_data[sessionId];
 
   if (method === 'POST') {
     res.setHeader('Content-type', 'text/plain;charset=utf8');
@@ -42,10 +67,12 @@ const server = http.createServer(async (req, res) => {
         const result = await exec(sql);
 
         if (result.length) {
+          // 将用户数据添加到session对象
+          req.session.id = result[0].id;
           // 重定向
           res.writeHead(302, {
             'location': 'http://localhost:3000/user.html', // 重定向的网址
-            'set-cookie': `userid=${result[0].id};max-age=${3600*24*7};httpOnly` // 设置cookie
+            'set-cookie': `session_id=${sessionId};max-age=${3600*24*7};httpOnly` // 设置cookie
           });
           // 找到了指定用户
           res.end();
@@ -124,7 +151,7 @@ const server = http.createServer(async (req, res) => {
     }
     if (url === '/user.html') {
       // 判断用户是否登录过
-      if (!req.cookies.userid) {
+      if (!req.session.id) {
         // 说明用户没有登录过，返回登录页面
         res.writeHead(302, {
           location: 'http://localhost:3000/login.html'

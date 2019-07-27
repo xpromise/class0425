@@ -1,14 +1,13 @@
-// 引入http模块
-const http = require('http');
-const querystring = require('querystring');
-const { readFile, createReadStream, createWriteStream } = require('fs');
+const { createReadStream } = require('fs');
 const { resolve } = require('path');
 // 对象的解构赋值
-const { exec, escape } = require('./db/mysql');
-const { get, set } = require('./db/redis');
+const { exec, escape } = require('./src/db/mysql');
+const { set } = require('./src/db/redis');
 
-// 创建http服务
-const server = http.createServer(async (req, res) => {
+const { getCookies, getBodyData, getSession } = require('./src/utils/parser');
+const { access } = require('./src/utils/logs');
+
+async function serverHandle(req, res) {
   // 业务逻辑
   // 获取请求方式
   const { method } = req;
@@ -18,23 +17,13 @@ const server = http.createServer(async (req, res) => {
   await getBodyData(req);
   // 获取cookie
   getCookies(req);
+  // 获取session
+  await getSession(req);
 
   // 记录访问日志
   if (url !== '/favicon.ico') {
     access(`${method} -- ${url} -- ${req.headers["user-agent"]} -- ${Date.now()}`);
   }
-
-  let sessionId = req.cookies.session_id;
-  let session_data = {};
-
-  if (sessionId) {
-    // 读取redis中保存的session数据
-    session_data = await get(sessionId);
-  } else {
-    // 没有session_id， 创建一个session_id
-    sessionId = `${Math.random()}_${Date.now()}`;
-  }
-  req.session = session_data;
 
   if (method === 'POST') {
     res.setHeader('Content-type', 'text/plain;charset=utf8');
@@ -69,7 +58,7 @@ const server = http.createServer(async (req, res) => {
           // 重定向
           res.writeHead(302, {
             'location': 'http://localhost:3001/user.html', // 重定向的网址
-            'set-cookie': `session_id=${sessionId};max-age=${3600*24*7};httpOnly` // 设置cookie
+            'set-cookie': `session_id=${req.sessionId};max-age=${3600*24*7};httpOnly` // 设置cookie
           });
           // 找到了指定用户
           res.end();
@@ -171,59 +160,14 @@ const server = http.createServer(async (req, res) => {
   });
   res.end(url + '该资源未找到');
 
-});
-// 监听端口号
-server.listen(3001, (err) => {
-  if (err) console.log(err);
-  else console.log('服务器启动成功了~ 3001');
-});
-
-/**
- * 获取请求体参数
- * @param req
- * @returns {Promise<any>}
- */
-function getBodyData(req) {
-  return new Promise((resolve, reject) => {
-    // 获取请求体参数
-    let body = '';
-    req.on('data', (chunk) => {
-      // console.log(chunk.toString()); // username=jack&password=123
-      body += chunk.toString();
-    });
-    req.on('end', () => {
-      // 当数据全部读取完毕，就会触发当前事件
-      req.body = querystring.parse(body);
-      resolve();
-    })
-  })
 }
 
-/**
- * 解析cookie
- * @param req
- * @returns {{}}
- */
-function getCookies(req) {
-  const cookie = req.headers.cookie;
-  if (!cookie) {
-    req.cookies = {};
-    return;
-  }
-  req.cookies = cookie.split(';').reduce((prev, curr) => {
-    const [key, value] = curr.trim().split('=');
-    prev[key] = value;
-    return prev;
-  }, {})
-}
+module.exports = serverHandle;
 
-// 写日志
-const filepath = resolve(__dirname, 'logs', 'access.log');
-const ws = createWriteStream(filepath, {
-  flags: 'a'  // 追加
-});
-function access(log) {
-  ws.write(log + '\n');
-}
+
+
+
+
+
 
 

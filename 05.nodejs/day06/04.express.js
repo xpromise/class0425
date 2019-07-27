@@ -27,7 +27,7 @@ app.get('/test1', (req, res) => {
   // 当请求方式为get，并且请求地址为/test1，就会触发当前回调函数
   // 获取请求的参数：查询字符串
   console.log(req.query); // { username: 'jack', password: '123' }
-  // 解析cookie
+  // 获取cookie
   console.log(req.cookies);
   // 返回响应
   // res.end('success');

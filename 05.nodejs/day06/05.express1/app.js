@@ -29,7 +29,7 @@ app.get('/user.html', (req, res) => {
   // 发送文件
   res.sendFile(filePath);
 });*/
-
+// 注册功能
 app.post('/register', async (req, res) => {
   // 1. 获取请求体参数
   let { username, password, phone } = req.body;

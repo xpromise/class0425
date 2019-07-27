@@ -19,7 +19,10 @@ const server = http.createServer(async (req, res) => {
   // 获取cookie
   getCookies(req);
 
-
+  // 记录访问日志
+  if (url !== '/favicon.ico') {
+    access(`${method} -- ${url} -- ${req.headers["user-agent"]} -- ${Date.now()}`);
+  }
 
   let sessionId = req.cookies.session_id;
   let session_data = {};
@@ -213,6 +216,15 @@ function getCookies(req) {
     prev[key] = value;
     return prev;
   }, {})
+}
+
+// 写日志
+const filepath = resolve(__dirname, 'logs', 'access.log');
+const ws = createWriteStream(filepath, {
+  flags: 'a'  // 追加
+});
+function access(log) {
+  ws.write(log + '\n');
 }
 
 

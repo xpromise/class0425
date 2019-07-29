@@ -1,12 +1,12 @@
-const Koa = require('koa');
+const { createWriteStream } = require('fs');
+const { resolve } = require('path');
 
+const Koa = require('koa');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 const morgan = require('koa-morgan');
 const bodyParser = require('koa-bodyparser');
 const serve = require('koa-static');
-const { createWriteStream } = require('fs');
-const { resolve } = require('path');
 
 const { REDIS_CONFIG } = require('./config');
 const userRouter = require('./routers/user');

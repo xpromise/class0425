@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>原生ajax</title>
+</head>
+<body>
+<button id="btn">点击发送ajax请求</button>
+<script type="text/javascript">
+
+  document.getElementById('btn').onclick = function () {
+    // 发送ajax请求
+    // 1. 创建xhr对象
+    const xhr = new XMLHttpRequest();
+    // 2. 绑定事件监听。 用来接收响应
+    // 当 readystate 发生变化时会触发的事件
+    /*
+      xhr.readyState：
+        0：初始值。刚刚创建好xhr实例对象，别的事还没开始
+        1：代表send方法还没有调用，还可以设置请求信息
+        2：代表send方法已经调用了，并且接收到部分的响应结果（除了响应体以外内容：status、headers...）
+        3：代表接受了部分响应体数据（如果响应体是较小的就全部接收了，如果较大就只接受一部分）
+        4：代表全部接收响应体数据
+    */
+    xhr.onreadystatechange = function () {
+      // 接收响应结果
+      // console.log(xhr.readyState);
+      /*if (xhr.readyState === 2) {
+        // 接收了部分响应信息
+        console.log(xhr.status);
+        console.log(xhr.getResponseHeader('content-type'));
+      }
+
+      if (xhr.readyState === 3) {
+        console.log(xhr.responseText);
+      }*/
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // xhr.readyState === 4 代表响应体数据全部接收完了
+        // xhr.status === 200 代表响应是成功的
+        console.log(xhr.responseText);
+      }
+    };
+    // 3. 设置请求信息
+    /*
+      xhr.open(请求方式, 请求地址?查询字符串参数);
+     */
+    // xhr.open('GET', 'http://localhost:3000/test?username=jack&password=123');
+    xhr.open('POST', 'http://localhost:3000/test');
+    // 告诉服务器以什么方式解析请求体数据
+    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    // 4. 发送请求
+    xhr.send('username=rose&password=456'); // 使用urlencoded编码
+  }
+
+</script>
+</body>
+</html>

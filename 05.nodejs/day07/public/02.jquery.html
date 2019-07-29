@@ -29,8 +29,8 @@
       }
     });*/
 
-    /*$.ajax({
-      method: 'POST',
+    $.ajax({
+      method: 'PUT',
       url: 'http://localhost:3000/test',
       data: {
         username: 'jack',
@@ -44,14 +44,14 @@
         // 请求失败的回调函数
         console.log(error);
       }
-    });*/
+    });
 
-    $.post('http://localhost:3000/test', {
+    /*$.post('http://localhost:3000/test', {
       username: 'jack',
       password: 123
     }, function (data) {
       console.log(data);
-    })
+    })*/
   })
 
 </script>

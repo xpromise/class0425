@@ -5,6 +5,7 @@ const session = require('express-session');
 // 创建app应用对象
 const app = express();
 
+// 中间件
 // 解析请求体参数
 // 通过data事件接收到所有参数，解析成对象，将其挂载到req.body
 app.use(express.urlencoded({extended: true}));
@@ -41,7 +42,6 @@ app.post('/test2', (req, res) => {
 
   res.send('这是服务器返回的响应~');
 });
-
 
 // 监听端口号
 app.listen(3000, (err) => {

@@ -17,6 +17,8 @@ router.post('/login', async (req, res) => {
 
   if (result.length) {
     // 4. 如果正确，登录成功，重定向到user页面
+    // 将用户数据存储在session中
+    req.session.userId = result[0].id;
     res.redirect('http://localhost:3000/user.html');
   } else {
     // 3. 如果不正确，返回错误

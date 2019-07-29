@@ -19,6 +19,7 @@ router.get('/user.html', loginCheck, (req, res) => {
     // 说明用户没有登录成功过, 去登陆页面
     res.redirect('http://localhost:3000/login.html');
   }*/
+  console.log(a);
   res.sendFile(resolve(__dirname, '../views', 'user.html'));
 });
 

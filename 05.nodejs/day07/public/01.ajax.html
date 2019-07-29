@@ -44,12 +44,19 @@
     /*
       xhr.open(请求方式, 请求地址?查询字符串参数);
      */
-    // xhr.open('GET', 'http://localhost:3000/test?username=jack&password=123');
-    xhr.open('POST', 'http://localhost:3000/test');
+    /*
+      针对GET请求，浏览器默认会缓存下来。
+        Chrome / ff 会缓存请求，但是还是会访问服务器，由服务器告诉我走缓存
+        ie 会缓存请求。不会访问服务器，直接走浏览器本地缓存:
+          解决问题：加上一个请求参数：随机数/时间戳
+     */
+    xhr.open('GET', 'http://localhost:3000/test?username=jack&password=123&date=' + Date.now());
+    // xhr.open('POST', 'http://localhost:3000/test');
     // 告诉服务器以什么方式解析请求体数据
-    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    // xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
     // 4. 发送请求
-    xhr.send('username=rose&password=456'); // 使用urlencoded编码
+    // xhr.send('username=rose&password=456'); // 使用urlencoded编码
+    xhr.send();
   }
 
 </script>

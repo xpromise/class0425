@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>a</title>
+</head>
+<body>
+<button id="btn">按钮</button>
+<script type="text/javascript">
+  let num = 1;
+  document.getElementById('btn').onclick = function () {
+    localStorage.setItem('id', num++);
+  }
+</script>
+</body>
+</html>

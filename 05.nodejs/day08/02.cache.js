@@ -27,7 +27,6 @@ const app = express();
           返回 304 就会读取缓存
           返回 新资源 就不读取缓存
  */
-
 // 返回index.html资源
 app.get('/', (req, res) => {
   const filepath = resolve(__dirname, 'public', 'index.html');

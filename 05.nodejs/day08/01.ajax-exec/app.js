@@ -14,6 +14,11 @@ const app = express();
   db.cities.find({province: '44', city: '03', level: 3})
  */
 
+app.use((req, res, next) => {
+  res.set('access-control-allow-origin', '*');
+  next();
+});
+
 // 设置路由
 // 处理省份路由
 app.get('/province', async (req, res) => {

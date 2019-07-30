@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>三级联动</title>
+</head>
+<body>
+
+<select id="province">
+	<option>请选择省份</option>
+</select> 省
+
+<select id="city">
+	<option>请选择市</option>
+</select> 市
+
+<select id="county">
+	<option>请选择区(县)</option>
+</select> 区(县)
+
+<script type="text/javascript" src="./js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+	$(function () {
+		const $province = $('#province');
+		const $city = $('#city');
+		const $county = $('#county');
+		
+		// 一上来请求所有省份的数据
+		$.get('http://localhost:3000/province', function (result) {
+			if (result.code === 0) {
+				// 请求成功
+				/*result.data.forEach((item) => {
+					const { province, name } = item;
+					const html = `<option>${name}</option>`;
+					$province.append(html);
+				})*/
+
+				/*let html = '';
+				result.data.forEach((item) => {
+					const { province, name } = item;
+					html += `<option>${name}</option>`;
+				});
+				$province.append(html);*/
+
+				const html = result.data.reduce((p, c) => {
+					const { province, name } = c;
+					p += `<option value="${province}">${name}</option>`;
+					return p;
+				}, '');
+				$province.append(html);
+
+			} else {
+				// 请求失败
+				alert(result.msg);
+			}
+		})
+
+		// 当用户选择某个省份时，需要请求城市数据
+		$province.change(function () {
+			// 清空区县的数据
+			$county.html('<option>请选择区(县)</option>');
+
+			// 获取省份
+			const province = this.value;
+
+			$.get('http://localhost:3000/city', { province }, function (result) {
+				if (result.code === 0) {
+
+					const html = result.data.reduce((p, c) => {
+						const { city, name } = c;
+						p += `<option value="${city}">${name}</option>`;
+						return p;
+					}, '<option>请选择市</option>');
+					$city.html(html);
+
+				} else {
+					alert(result.msg);
+				}
+			})
+
+
+		})
+
+		$city.change(function () {
+			// 获取省份
+			const province = $province.val();
+			// 获取城市
+			const city = this.value;
+
+			$.get('http://localhost:3000/county', { province, city }, function (result) {
+				if (result.code === 0) {
+
+					const html = result.data.reduce((p, c) => {
+						const { county, name } = c;
+						p += `<option value="${county}">${name}</option>`;
+						return p;
+					}, '<option>请选择区(县)</option>');
+					$county.html(html);
+
+				} else {
+					alert(result.msg);
+				}
+			})
+
+		})
+		
+	})
+</script>
+</body>
+</html>

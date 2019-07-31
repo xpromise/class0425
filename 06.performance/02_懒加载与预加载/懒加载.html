@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    html, body{
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .loaded-img{
+      width: 45%;
+      height: 45%;
+    }
+  </style>
+</head>
+<body>
+<img src="./imgs/loading.gif" data-src="./imgs/1.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/2.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/3.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/4.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/5.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/6.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/7.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/8.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/9.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/10.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/11.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/12.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/13.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/14.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/15.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/16.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/17.jpg" class="lazy-load loaded-img" alt="">
+<img src="./imgs/loading.gif" data-src="./imgs/18.jpg" class="lazy-load loaded-img" alt="">
+<script type="text/javascript">
+
+  // 获取屏幕高度
+  const clientHeight = document.documentElement.clientHeight;
+
+  function lazyLoad() {
+    const imgs = document.querySelectorAll('.lazy-load');
+    // 判断图片是否出现在可视区域内
+    imgs.forEach(function (img) {
+      // 获取图片距离视口的高度
+      const { top } = img.getBoundingClientRect();
+      // console.log(top, clientHeight);
+      if (top < clientHeight) {
+        // 说明图片出现在可视区域内，加载真实图片
+        // console.log(img.dataset.src);
+        img.src = img.dataset.src;
+        // 删除自定义属性
+        img.removeAttribute('data-src');
+        // img.removeAttribute('class');
+        img.className = 'loaded-img';
+      }
+    })
+  }
+
+  lazyLoad();
+
+  /*window.onscroll = function () {
+    // 滚轮事件
+    lazyLoad();
+  }*/
+
+  window.onscroll = lazyLoad;
+
+</script>
+</body>
+</html>

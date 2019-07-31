@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<img src="./img/1.jpg.webp" alt="">
+<script type="text/javascript">
+  // 监听图片加载失败的事件
+  const img = document.querySelector('img');
+  /*img.onerror = function () {
+    console.log('图片加载失败了');
+    this.src = this.src.slice(0, -5);
+  }*/
+
+  window.addEventListener('error', function (ev) {
+    console.log('出错了~');
+    const target = ev.target;
+    // 删选图片的错误
+    if (target.tagName === 'IMG') {
+      target.src = target.src.slice(0, -5);
+    }
+  }, true)
+
+</script>
+</body>
+</html>

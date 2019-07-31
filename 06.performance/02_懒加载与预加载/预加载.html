@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  // 预加载
+  const imgsArr = ['./imgs/1.jpg', './imgs/2.jpg'];
+  imgsArr.forEach(function (img) {
+    const image = new Image();
+    image.src = img;
+  })
+</script>
+</body>
+</html>

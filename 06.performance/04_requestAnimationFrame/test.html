@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #box{
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+<div id="box"></div>
+<script type="text/javascript">
+  const box = document.getElementById('box');
+  let num = 0;
+
+  /*setInterval(() => {
+    box.style.left = 100 + num++ + 'px';
+  }, 1000 / 60)*/
+
+  // 在下次重排重绘之前先执行requestAnimationFrame方法。将多次的重排重绘合并成一次
+  function move() {
+    window.requestAnimationFrame(function () {
+      num++;
+      box.style.left = 100 + num++ + 'px';
+      if (num > 200) return;
+      move();
+    })
+  }
+
+  // move();
+
+
+
+</script>
+</body>
+</html>

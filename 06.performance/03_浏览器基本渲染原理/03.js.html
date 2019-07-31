@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  JS代码一定是从上往下执行
+    因为js往往需要操作DOM
+    同步加载的js会阻塞渲染
+
+    async 异步加载。  加载完成就立即执行。
+      用途：有一段js，不影响其他js的功能且不操作DOM
+
+    defer 异步加载。  按照顺序执行js
+
+    异步加载不阻塞渲染
+-->
+<script type="text/javascript">
+  console.log(111);
+</script>
+<script type="text/javascript" defer src="./a.js"></script>
+<script type="text/javascript">
+  console.log(222);
+</script>
+<script type="text/javascript" defer src="./b.js"></script>
+<script type="text/javascript">
+  console.log(333);
+</script>
+</body>
+</html>

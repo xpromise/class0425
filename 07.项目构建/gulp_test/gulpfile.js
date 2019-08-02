@@ -7,6 +7,11 @@
     2. 打开文档，下载插件相关的包
     3. 注册任务，写gulp的任务配置
     4. 运行任务  gulp 任务名称
+
+
+    开发环境：搭建一个代码可以运行的环境
+    生产环境
+
  */
 
 // 引入依赖包
@@ -15,6 +20,10 @@ const babel = require('gulp-babel');
 const browserify = require('gulp-browserify');
 const rename = require("gulp-rename");
 const eslint = require('gulp-eslint');
+const less = require('gulp-less');
+const concat = require('gulp-concat');
+const connect = require('gulp-connect');
+const open = require('open');
 
 // 注册任务，写gulp的任务配置
 gulp.task('babel', () => {
@@ -24,6 +33,7 @@ gulp.task('babel', () => {
       presets: ['@babel/env']
     }))
     .pipe(gulp.dest('./build/js')) // 将流中文件输出出去
+    .pipe(connect.reload());
   // return gulp.src(['./src/js/app.js', './src/js/module1.js'])
 });
 
@@ -32,6 +42,7 @@ gulp.task('browserify', function() {
     .pipe(browserify()) // 对gulp流中的文件使用browserify进行转换：将commonjs转换浏览器能识别的语法
     .pipe(rename('built.js')) // 对gulp流中的文件使用rename进行重命名
     .pipe(gulp.dest('./build/js'))
+    .pipe(connect.reload());
 });
 
 /*
@@ -59,8 +70,47 @@ gulp.task('eslint', () => {
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
+    .pipe(connect.reload());
+});
+
+gulp.task('less', function () {
+  return gulp.src('./src/less/*.less')
+    .pipe(less()) // 将less编译成css
+    .pipe(concat('built.css'))
+    .pipe(gulp.dest('./build/css'))
+    .pipe(connect.reload());
+});
+
+gulp.task('html', () => {
+  return gulp.src('./src/index.html')
+    .pipe(gulp.dest('./build'))
+    .pipe(connect.reload());
+});
+
+// 自动化
+gulp.task('watch', () => {
+
+  // 开启服务器
+  connect.server({
+    name: 'Dev App',
+    root: ['build'], // 运行项目的目录
+    port: 3000,
+    livereload: true // 热更新功能： 自动刷新浏览器
+  });
+
+  // 自动打开浏览器
+  open('http://localhost:3000');
+
+  // 自动编译
+  // 一旦js文件发生变化，就立即执行gulp.series(['js'])任务
+  gulp.watch('./src/js/*.js', gulp.series(['js']));
+  gulp.watch('./src/less/*.less', gulp.series(['less']));
+  gulp.watch('./src/index.html', gulp.series(['html']));
 });
 
 // 配置统一任务：里面负责按照顺序执行多个任务
 gulp.task('js', gulp.series(['eslint', 'babel', 'browserify'])); // 同步依次执行
 // gulp.task('js', gulp.parallel(['eslint', 'babel', 'browserify'])); // 异步执行、
+gulp.task('dev', gulp.parallel(['js', 'less', 'html']));
+
+gulp.task('default', gulp.series(['dev', 'watch']));

@@ -3,6 +3,7 @@
 
   开发步骤：
     1. 上插件网 https://gulpjs.com/plugins/ 搜插件  gulp-xxx
+      注意：部分插件并没有在官网收集，需要通过npm仓库 https://www.npmjs.com/ 找
     2. 打开文档，下载插件相关的包
     3. 注册任务，写gulp的任务配置
     4. 运行任务  gulp 任务名称

@@ -14,6 +14,7 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const browserify = require('gulp-browserify');
 const rename = require("gulp-rename");
+const eslint = require('gulp-eslint');
 
 // 注册任务，写gulp的任务配置
 gulp.task('babel', () => {
@@ -32,3 +33,34 @@ gulp.task('browserify', function() {
     .pipe(rename('built.js')) // 对gulp流中的文件使用rename进行重命名
     .pipe(gulp.dest('./build/js'))
 });
+
+/*
+  "eslintConfig": {
+    "parserOptions": {  配置使用的es规范
+      "ecmaVersion": 6,  使用es6
+      "sourceType": "module" 使用es6模块化
+    },
+    "env": {  配置环境
+      "browser": true  浏览器环境：支持使用浏览器的全局变量
+    },
+    "globals": { 全局变量
+      "$": "readonly"
+    },
+    "rules": {  详细检查规则
+      "no-console": 0,  // 忽略检查
+      "eqeqeq": 1, // 出现警告
+      "no-alert": 2 // 出现错误
+    },
+    "extends": "eslint:recommended"  // 使用eslint的推荐配置
+  }
+ */
+gulp.task('eslint', () => {
+  return gulp.src('./src/js/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
+});
+
+// 配置统一任务：里面负责按照顺序执行多个任务
+gulp.task('js', gulp.series(['eslint', 'babel', 'browserify'])); // 同步依次执行
+// gulp.task('js', gulp.parallel(['eslint', 'babel', 'browserify'])); // 异步执行、

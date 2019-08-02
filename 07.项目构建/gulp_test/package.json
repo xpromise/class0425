@@ -15,6 +15,25 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-eslint": "^6.0.0",
     "gulp-rename": "^1.4.0"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "env": {
+      "browser": true
+    },
+    "globals": {
+      "$": "readonly"
+    },
+    "rules": {
+      "no-console": 0,
+      "eqeqeq": 2,
+      "no-alert": 2
+    },
+    "extends": "eslint:recommended"
   }
 }

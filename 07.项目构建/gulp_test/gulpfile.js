@@ -8,10 +8,6 @@
     3. 注册任务，写gulp的任务配置
     4. 运行任务  gulp 任务名称
 
-
-    开发环境：搭建一个代码可以运行的环境
-    生产环境
-
  */
 
 // 引入依赖包
@@ -24,6 +20,12 @@ const less = require('gulp-less');
 const concat = require('gulp-concat');
 const connect = require('gulp-connect');
 const open = require('open');
+const uglify = require('gulp-uglify');
+const cssmin = require('gulp-cssmin');
+const htmlmin = require('gulp-htmlmin');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
 // 注册任务，写gulp的任务配置
 gulp.task('babel', () => {
@@ -76,7 +78,7 @@ gulp.task('eslint', () => {
 gulp.task('less', function () {
   return gulp.src('./src/less/*.less')
     .pipe(less()) // 将less编译成css
-    .pipe(concat('built.css'))
+    .pipe(concat('built.css')) // 将多个文件合并成一个文件
     .pipe(gulp.dest('./build/css'))
     .pipe(connect.reload());
 });
@@ -108,9 +110,51 @@ gulp.task('watch', () => {
   gulp.watch('./src/index.html', gulp.series(['html']));
 });
 
+gulp.task('uglify', () => {
+  return gulp.src('./build/js/built.js')
+    .pipe(uglify()) // 压缩js： 1. 将变量名改为单个字母 2. 去除多余的空格和换行符 3. 移除注释
+    .pipe(rename('dist.min.js'))
+    .pipe(gulp.dest('./dist/js'))
+});
+
+gulp.task('cssmin', () => {
+  const plugins = [
+    autoprefixer(),
+    cssnano()
+  ];
+
+  return gulp.src('./build/css/built.css')
+    .pipe(postcss(plugins)) // 做样式的兼容性处理
+    .pipe(cssmin())
+    .pipe(rename('dist.min.css'))
+    .pipe(gulp.dest('./dist/css'))
+});
+
+gulp.task('htmlmin', () => {
+  return gulp.src('./build/index.html')
+    .pipe(htmlmin({
+      collapseWhitespace: true, // 去除空格
+      removeComments: true, // 移除注释
+    }))
+    .pipe(gulp.dest('./dist'))
+});
+
 // 配置统一任务：里面负责按照顺序执行多个任务
 gulp.task('js', gulp.series(['eslint', 'babel', 'browserify'])); // 同步依次执行
 // gulp.task('js', gulp.parallel(['eslint', 'babel', 'browserify'])); // 异步执行、
-gulp.task('dev', gulp.parallel(['js', 'less', 'html']));
+gulp.task('js-dev', gulp.parallel(['js', 'less', 'html']));
 
-gulp.task('default', gulp.series(['dev', 'watch']));
+gulp.task('dev', gulp.series(['js-dev', 'watch']));
+
+gulp.task('js-prod', gulp.parallel(['uglify', 'cssmin', 'htmlmin']));
+
+gulp.task('prod', gulp.series(['js-dev', 'js-prod']));
+
+/*
+  开发环境：搭建一个代码可以运行的环境
+  生产环境: 输出项目上线使用的代码
+
+  开发依赖：项目构建时使用的依赖：babel、uglify...
+  生产依赖：项目运行时需要使用的依赖：jquery..
+ */
+

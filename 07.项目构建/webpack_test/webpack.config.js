@@ -5,12 +5,16 @@ const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const webpack = require('webpack');
+
 module.exports = {
   mode: 'development', // 模式
   // entry: './src/js/app.js', // 入口
-  entry: {
-    main: './src/js/app.js'
-  },
+  /*entry: {
+    main: './src/js/app.js',
+    index: './src/index.html' // 解决HMR不能热更新HTML文件
+  },*/
+  entry: ['./src/js/app.js', './src/index.html'],
   output: { // 输出
     path: resolve(__dirname, 'build'), // 文件输出目录
     filename: './js/built.js' // 文件输出名称
@@ -45,7 +49,7 @@ module.exports = {
               options: {
                 limit: 8192, // 8kb --> 8kb以下的图片会base64处理
                 outputPath: 'images', // 决定文件本地输出路径
-                publicPath: '../build/images',  // 决定图片的url路径
+                publicPath: '../images',  // 决定图片的url路径
                 name: '[hash:8].[ext]' // 修改文件名称 [hash:8] hash值取8位  [ext] 文件扩展名
               }
             }
@@ -94,8 +98,17 @@ module.exports = {
     new HtmlWebpackPlugin({  // 创建html文件，自动引入打包生产js资源
       template: './src/index.html' // 以当前文件为模板创建新的HtML(1. 结构和原来一样 2. 会自动引入打包的资源)
     }),
-    new CleanWebpackPlugin()  // 清除指定目录的所有文件
+    // new CleanWebpackPlugin()  // 清除指定目录的所有文件
+    new webpack.HotModuleReplacementPlugin()
   ],
   devtool: 'cheap-module-eval-source-map', // 开发环境的错误提示
   // devtool: 'cheap-module-source-map' // 生产环境的错误提示
+  // 开发服务器不会输出任何代码。只会内存中编译运行
+  devServer: { // 启动devServer指令：webpack-dev-server   npm i webpack-dev-server -D
+    contentBase: resolve(__dirname, 'build'), // 运行项目的目录
+    open: true, // 自动打开浏览器
+    compress: true, // 启动gzip压缩
+    port: 3000,
+    hot: true  // 开启热模替换功能 HMR
+  }
 };

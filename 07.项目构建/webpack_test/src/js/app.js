@@ -6,6 +6,7 @@ import sum from './module2';
 // 需要借助loader来帮助webpack解析
 import '../less/test1.less';
 import '../less/test2.less';
+import '../less/iconfont.less';
 
 const promise = new Promise((resolve) => {
   setTimeout(() => {

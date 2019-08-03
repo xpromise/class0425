@@ -2,6 +2,8 @@
   webpack的配置文件。 运行配置文件的指令： webpack
  */
 const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development', // 模式
@@ -68,7 +70,25 @@ module.exports = {
             cacheDirectory: true, // 开启babel缓存
           }
         }
+      },
+      {
+        test: /\.(html)$/,
+        loader: 'html-loader' // 处理html的img
+      },
+      {
+        test: /\.(eot|svg|woff|woff2|ttf|mp3|mp4|avi)$/,  // 处理其他资源
+        loader: 'file-loader',
+        options: {
+          outputPath: 'media',
+          name: '[hash:8].[ext]'
+        }
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({  // 创建html文件，自动引入打包生产js资源
+      template: './src/index.html' // 以当前文件为模板创建新的HtML(1. 结构和原来一样 2. 会自动引入打包的资源)
+    }),
+    new CleanWebpackPlugin()  // 清除指定目录的所有文件
+  ]
 };

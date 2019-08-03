@@ -23,4 +23,6 @@
 * 指令
   * webpack ./src/js/app.js -o ./build/js/built.js --mode=development    
   * webpack ./src/js/app.js -o ./build/js/built.js --mode=production   
-  
+
+* webpack配置文件
+  * webpack.config.js 位置在项目更目录下  

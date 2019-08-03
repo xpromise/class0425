@@ -24,6 +24,27 @@ module.exports = {
           'css-loader', // 将css以commonjs方式整合到js文件中
           'less-loader'  // 将less文件解析成css文件
         ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        // npm i url-loader file-loader -D
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8192, // 8kb --> 8kb以下的图片会base64处理
+            outputPath: 'images', // 决定文件本地输出路径
+            publicPath: '../build/images',  // 决定图片的url路径
+            name: '[hash:8].[ext]' // 修改文件名称 [hash:8] hash值取8位  [ext] 文件扩展名
+          }
+        }
+      },
+      {
+        test: /\.js$/,
+        // npm i eslint eslint-loader -D
+        // 在package.json添加eslintConfig配置项
+        exclude: /node_modules/,  // 排除node_modules。 node_modules不进行语法检查
+        // include: [],
+        loader: "eslint-loader",
       }
     ]
   }

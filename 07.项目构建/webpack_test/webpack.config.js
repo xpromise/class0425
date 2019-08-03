@@ -1,7 +1,6 @@
 /*
   webpack的配置文件。 运行配置文件的指令： webpack
  */
-
 const { resolve } = require('path');
 
 module.exports = {
@@ -45,6 +44,29 @@ module.exports = {
         exclude: /node_modules/,  // 排除node_modules。 node_modules不进行语法检查
         // include: [],
         loader: "eslint-loader",
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          // npm i babel-loader @babel/core @babel/preset-env @babel/polyfill core-js
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'usage',  // 按需加载需要使用polyfill
+                  corejs: { version: 3 }, // 解决warn
+                  targets: { // 指定兼容性处理哪些浏览器
+                    "chrome": "58",
+                    "ie": "9",
+                  }
+                }
+              ]
+            ]
+          }
+        }
       }
     ]
   }

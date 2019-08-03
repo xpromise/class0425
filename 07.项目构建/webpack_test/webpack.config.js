@@ -56,7 +56,7 @@ module.exports = {
               [
                 '@babel/preset-env',
                 {
-                  useBuiltIns: 'usage',  // 按需加载需要使用polyfill
+                  useBuiltIns: 'usage',  // 按需引入需要使用polyfill
                   corejs: { version: 3 }, // 解决warn
                   targets: { // 指定兼容性处理哪些浏览器
                     "chrome": "58",
@@ -64,7 +64,8 @@ module.exports = {
                   }
                 }
               ]
-            ]
+            ],
+            cacheDirectory: true, // 开启babel缓存
           }
         }
       }

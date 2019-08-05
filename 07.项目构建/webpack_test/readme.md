@@ -48,20 +48,19 @@
     "sideEffects": [
       "./src/less/*.less"  // 哪些代码不进行tree shaking
     ],
-    
 * code splitting 代码分割    
   * 将一个文件拆分成多个文件
     * 并行加载速度更快
     * 当一个文件变化只要重新加载一个文件
     * 提取成单独文件还可以实现异步动态加载
-    
 * 缓存
   * contenthash
-  
 * lazy loading 懒加载
   * 首先实现代码分离
   * import() 动态加载      
-  
 * shimming
   * 用来定义全局变量  
+* pwa
+  * 渐进式网络应用
+  * 实现离线可访问  
     

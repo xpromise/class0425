@@ -16,6 +16,7 @@
     页面重新加载1mb 的js  main.js
  */
 // import _ from 'lodash';
+import '../less/test1.less';
 
 console.log(window._.join(['hello', 'webpack'], '~~~'));
 console.log(window._.join(['hello', 'world'], '~~~'));

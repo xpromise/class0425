@@ -1,5 +1,8 @@
 {
   "name": "webpack_test",
+  "sideEffects": [
+    "./src/less/*.less"
+  ],
   "version": "1.0.0",
   "description": "* 一个模块打包器\r * 5个核心概念\r   * entry 入口：指定webpack从哪个文件开始打包\r   * output 输出：指定webpack打包后的资源输出到哪里去\r   * loader 加载器：\r     * webpack工具只能识别js、json资源，其他资源默认解析不了。\r     * 帮助webpack加载识别不了的资源\r   * plugins 插件：\r     * 执行任务更加强大的功能\r   * mode 模式\r     * development 开发\r     * production 生产",
   "main": "index.js",
@@ -54,8 +57,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "core-js": "^3.1.4",
-    "lodash": "^4.17.15"
+    "core-js": "^3.1.4"
   },
   "browserslist": [
     "last 2 versions",

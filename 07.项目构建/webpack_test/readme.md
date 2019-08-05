@@ -44,6 +44,10 @@
   * 要求：
     * 必须使用ES6模块化
     * 开启webpack production，自动进行tree shaking
-
+  * package.json配置
+    "sideEffects": [
+      "./src/less/*.less"  // 哪些代码不进行tree shaking
+    ],
+    
 * code splitting 代码分割    
     

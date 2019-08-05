@@ -17,15 +17,18 @@ component().then((element) => {
 });
 */
 
+import '../less/test1.less';
+import '../less/test2.less';
+
 const div = document.createElement('div');
-div.innerText = '点我';
-div.onclick = function () {
+div.innerText = _.join(['点', '我'], '~');
+/*div.onclick = function () {
   // webpackPrefetch: true 实现等浏览器空闲偷偷加载资源
   // webpackChunkName: "lodash" 给chunk命名
-  import(/* webpackChunkName: "lodash", webpackPrefetch: true */'lodash').then(({default: _}) => {
+  import(/!* webpackChunkName: "lodash", webpackPrefetch: true *!/'lodash').then(({default: _}) => {
     const div = document.createElement('div');
     div.innerText = _.join(['hello', 'webpack'], '~~~');
     document.body.appendChild(div);
   })
-};
+};*/
 document.body.appendChild(div);

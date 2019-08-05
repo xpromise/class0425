@@ -35,6 +35,7 @@
     "style-loader": "^0.23.1",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.1",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6"
   },
   "eslintConfig": {
@@ -49,7 +50,8 @@
     },
     "globals": {
       "$": "readonly",
-      "Promise": "readonly"
+      "Promise": "readonly",
+      "_": "readonly"
     },
     "rules": {
       "no-console": 0,

@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const webpack = require('webpack');
 
@@ -21,8 +22,7 @@ module.exports = {
   },
   output: { // 输出
     path: resolve(__dirname, '../build'), // 文件输出目录
-    filename: 'js/[name].js', // 文件输出名称
-    // chunkFilename: 'js/[name].js',
+    filename: 'js/[name].[contenthash:8].js', // 文件输出名称
     publicPath: '/',  // 公共路径
   },
   module: {
@@ -66,7 +66,7 @@ module.exports = {
                 limit: 8192, // 8kb --> 8kb以下的图片会base64处理
                 outputPath: 'images', // 决定文件本地输出路径
                 publicPath: '/images',  // 决定图片的url路径
-                name: '[hash:8].[ext]' // 修改文件名称 [hash:8] hash值取8位  [ext] 文件扩展名
+                name: '[contenthash:8].[ext]' // 修改文件名称 [hash:8] hash值取8位  [ext] 文件扩展名
               }
             }
           },
@@ -104,7 +104,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               outputPath: 'media',
-              name: '[hash:8].[ext]'
+              name: '[contenthash:8].[ext]'
             }
           }
         ]
@@ -125,8 +125,8 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),  // 清除指定目录的所有文件
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].css',
+      filename: 'css/[name].[contenthash:8].css',
+      chunkFilename: 'css/[name].[contenthash:8].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
     new OptimizeCSSAssetsPlugin({ // 压缩css
@@ -136,6 +136,10 @@ module.exports = {
           annotation: true,
         }
       }
+    }),
+    // new BundleAnalyzerPlugin(),  分析webpack构建后资源的情况
+    new webpack.ProvidePlugin({
+      _: 'lodash' // 定义全局变量。 不易用太多
     })
   ],
   devtool: 'cheap-module-source-map', // 开发环境的错误提示

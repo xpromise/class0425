@@ -26,3 +26,24 @@
 
 * webpack配置文件
   * webpack.config.js 位置在项目更目录下  
+
+## 指令
+* webpack
+  * 能够输出打包后代码
+* webpack-dev-server
+  * 在内存中编译运行，不会输出
+  * 需要通过：npx webpack-dev-server 运行
+  * 或者通过在 package.json 配置： "start": "webpack-dev-server" --> 然后通过 npm start 启动  
+* webpack --config ./config/webpack.dev.js
+  * 修改配置文件名称时，需要设置改动后的地址和名称  
+* 注意：以上指令都需要来到项目根目录进行操作  
+  
+## 代码优化
+* tree shaking  术语  
+  * 去除多余（未引用代码）的代码
+  * 要求：
+    * 必须使用ES6模块化
+    * 开启webpack production，自动进行tree shaking
+
+* code splitting 代码分割    
+    

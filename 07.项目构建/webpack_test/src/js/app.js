@@ -1,34 +1,21 @@
-// import '@babel/polyfill'; // 包含ES6的高级语法的转换
-/*import { add, count } from './module1'; // 模块路径规则和commonjs一样
-import sum from './module2';*/
+/*
+  第一种方案：
+    打包生成了一个文件 built.js (包含lodash、自己写的代码)
+      main.js  1mb
+      lodash.js 1mb
+      built.js 2mb
+    页面加载时需要加载 2mb 的js。一旦页面逻辑变了
+    重新构建生成 built.js
+    页面重新加载2mb 的js。（过程中重复加载了1mb 的 lodash.js）
+  第二种方案：
+    打包生成两个文件
+      main.js 1mb
+      lodash.js 1mb
+    页面加载两个 1mb 的js。
+    一旦页面逻辑变了， 重新构建 生成 main.js
+    页面重新加载1mb 的js  main.js
+ */
+// import _ from 'lodash';
 
-import add from './add';
-import number from './number';
-
-
-// 通过引入的方式，使webpack解析less资源。 当然webpack解析不了，所以报错。
-// 需要借助loader来帮助webpack解析
-import '../less/test1.less';
-import '../less/test2.less';
-import '../less/iconfont.less';
-
-const promise = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve('hello webpack');
-  }, 1000)
-});
-
-console.log(promise);
-// console.log(add(1, 2));
-// console.log(count(3, 8));
-// console.log(sum(1, 2, 3, 4));
-
-add();
-number();
-
-if (module.hot) {
-  module.hot.accept('./number', function () {
-    document.querySelector('.number').remove();
-    number();
-  })
-}
+console.log(window._.join(['hello', 'webpack'], '~~~'));
+console.log(window._.join(['hello', 'world'], '~~~'));

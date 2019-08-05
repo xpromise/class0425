@@ -1,22 +1,31 @@
-/*
-  第一种方案：
-    打包生成了一个文件 built.js (包含lodash、自己写的代码)
-      main.js  1mb
-      lodash.js 1mb
-      built.js 2mb
-    页面加载时需要加载 2mb 的js。一旦页面逻辑变了
-    重新构建生成 built.js
-    页面重新加载2mb 的js。（过程中重复加载了1mb 的 lodash.js）
-  第二种方案：
-    打包生成两个文件
-      main.js 1mb
-      lodash.js 1mb
-    页面加载两个 1mb 的js。
-    一旦页面逻辑变了， 重新构建 生成 main.js
-    页面重新加载1mb 的js  main.js
- */
+// 同步引入代码分割
 // import _ from 'lodash';
-import '../less/test1.less';
+// console.log(_.join(['hello', 'webpack'], '~~~'));
 
-console.log(window._.join(['hello', 'webpack'], '~~~'));
-console.log(window._.join(['hello', 'world'], '~~~'));
+// 异步引入代码分割
+/*
+function component() {
+  const element = document.createElement('div');
+  return import('lodash').then(({default: _}) => {
+    element.innerText = _.join(['hello', 'webpack'], '~~~');
+    return element;
+  })
+}
+
+component().then((element) => {
+  document.body.appendChild(element);
+});
+*/
+
+const div = document.createElement('div');
+div.innerText = '点我';
+div.onclick = function () {
+  // webpackPrefetch: true 实现等浏览器空闲偷偷加载资源
+  // webpackChunkName: "lodash" 给chunk命名
+  import(/* webpackChunkName: "lodash", webpackPrefetch: true */'lodash').then(({default: _}) => {
+    const div = document.createElement('div');
+    div.innerText = _.join(['hello', 'webpack'], '~~~');
+    document.body.appendChild(div);
+  })
+};
+document.body.appendChild(div);

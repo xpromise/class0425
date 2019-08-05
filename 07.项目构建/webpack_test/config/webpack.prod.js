@@ -16,12 +16,13 @@ const webpack = require('webpack');
 module.exports = {
   mode: 'production', // 模式
   entry: {
-    lodash: './src/js/lodash.js',
+    // lodash: './src/js/lodash.js',
     main: './src/js/app.js',
   },
   output: { // 输出
     path: resolve(__dirname, '../build'), // 文件输出目录
     filename: 'js/[name].js', // 文件输出名称
+    // chunkFilename: 'js/[name].js',
     publicPath: '/',  // 公共路径
   },
   module: {
@@ -90,6 +91,7 @@ module.exports = {
                   ]
                 ],
                 cacheDirectory: true, // 开启babel缓存
+                plugins: ["@babel/plugin-syntax-dynamic-import"] // 解决动态import导入js
               }
             }
           },
@@ -141,15 +143,31 @@ module.exports = {
     hints: false // 关掉性能提示
   },
   optimization: {
-   /* minimizer: [
-      new OptimizeCSSAssetsPlugin({ // 压缩css
-        cssProcessorOptions: { // 解决source-map问题
-          map: {
-            inline: false,
-            annotation: true,
-          }
-        }
-      })
-    ],*/
+    splitChunks: {
+     chunks: 'all', // initial async all
+     /*minSize: 30000, // 提取成单独模块（单独模块最小为30kb）
+     maxSize: 0,  // 提取成单独模块（单独模块最大为0，无限大）
+     minChunks: 1, // 只要被引用1次，就会被提取成单独模块
+     maxAsyncRequests: 5, // 最大并行加载数量
+     maxInitialRequests: 3, // 入口模块最大加载数量
+     automaticNameDelimiter: '~', // 打包后模块命名 [chunkname]~[name].js
+     automaticNameMaxLength: 30, // 命名最大长度
+     name: true, // 允许修改名称
+     cacheGroups: {
+       vendors: {
+         test: /[\\/]node_modules[\\/]/, // 只有 node_modules中的模块会打包在vendors中
+         priority: -10, // 优先级
+         // filename: '[name].bundle.js'
+       },
+       default: {
+         minChunks: 2, // 只要被引用2次，就会被提取成单独模块
+         priority: -20,
+         reuseExistingChunk: true
+       }
+     }*/
+    },
+    runtimeChunk: {  // 将包的chunk信息单独提取出来
+      name: entrypoint => `runtime~${entrypoint.name}`
+    }
   },
 };

@@ -7,5 +7,35 @@
 <body>
   <div id="test1"></div>
   <div id="test2"></div>
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript">
+    // 第一种方式：创建虚拟DOM对象
+    const span = React.createElement('span', {}, 'hello span~');
+    const h1 = React.createElement('h1', { id: 'my-title', className: 'my-class' }, span, span);
+    // 将虚拟DOM对象渲染到页面指定容器中
+    ReactDOM.render(h1, document.getElementById('test1'));
+  </script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <script type="text/babel">
+    // 第二种方式：创建虚拟DOM对象  JSX语法
+    /*
+      语法：
+        1. 以<开头代码，如果是html同名标签，会解析成HTML同名元素。如果不是，就会当做组件解析
+        2. 以{开头代码。里面内容会当做js代码解析
+
+      JSX语法作用：用来创建虚拟DOM对象
+     */
+    const id = 'my-title2';
+    const content = 'hello span2~';
+
+    const h2 = <h2 id={id} className="my-class2">
+      <span>{content}</span>
+      <span>hello span2~</span>
+    </h2>;
+    // 将虚拟DOM对象渲染到页面指定容器中
+    ReactDOM.render(h2, document.getElementById('test2'));
+
+  </script>
 </body>
 </html>

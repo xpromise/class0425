@@ -23,5 +23,5 @@ module.exports = function (source) {
   setTimeout(() => {
     const content = source.replace('Jack', options.name || 'peihua');
     callback(null, content); // 调用callback，就不等了
-  }, 2000)
+  }, 0)
 };

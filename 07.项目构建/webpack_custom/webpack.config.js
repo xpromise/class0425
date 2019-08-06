@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const MyWebpackPlugin = require('./plugins/my-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -17,5 +18,10 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new MyWebpackPlugin({
+
+    })
+  ]
 };

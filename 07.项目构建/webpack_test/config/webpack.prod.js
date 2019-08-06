@@ -12,6 +12,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 const webpack = require('webpack');
 
@@ -24,6 +25,7 @@ module.exports = {
   output: { // 输出
     path: resolve(__dirname, '../build'), // 文件输出目录
     filename: 'js/[name].[contenthash:8].js', // 文件输出名称
+    chunkFilename: 'js/[name].[contenthash:8].chunk.js', // 文件输出名称
     publicPath: '/',  // 公共路径
   },
   module: {
@@ -139,15 +141,19 @@ module.exports = {
       }
     }),
     // new BundleAnalyzerPlugin(),  分析webpack构建后资源的情况
-    new webpack.ProvidePlugin({
+   /* new webpack.ProvidePlugin({
       _: 'lodash' // 定义全局变量。 不易用太多
-    }),
-    new WorkboxPlugin.GenerateSW({
+    }),*/
+    /*new WorkboxPlugin.GenerateSW({
       // these options encourage the ServiceWorkers to get in there fast
       // and not allow any straggling "old" SWs to hang around
       clientsClaim: true,
       skipWaiting: true
-    })
+    })*/
+    new AddAssetHtmlPlugin({ filepath: resolve(__dirname, '../dll/vendors.js') }),
+    new webpack.DllReferencePlugin({
+      manifest: resolve(__dirname, '../dll/vendors.manifest.json'),
+    }),
   ],
   devtool: 'cheap-module-source-map', // 开发环境的错误提示
   performance: {

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+
+  window.name = 'jack';
+
+  var obj = {
+    name: 'rose',
+    getName: function () {
+      return this.name;
+    }
+  };
+
+  console.log(obj.getName()); // rose
+  console.log((0, obj.getName)()); // jack
+
+  /*
+    (0, obj.getName) --> (a, b) --> 先执行a ，在返回b
+    (0, obj.getName)()
+      var getName = obj.getName;
+      getName();
+   */
+
+</script>
+</body>
+</html>

@@ -64,8 +64,8 @@ resolveModule(entry)
     let math = [];
 
     for (var i = 0; i < dependencies.length; i++) {
-      var filepath = dependencies[i]
-      math = await resolveModule(filepath)
+      var filepath = dependencies[i];
+      math = await resolveModule(filepath);
     }
 
     const resultAST = math.body.concat(body);
@@ -81,7 +81,7 @@ resolveModule(entry)
 
     // 将code输出成文件
     fs.writeFile('./build/bundle.js', code, (err) => {
-      console.log(err)
+      console.log(err);
     });
 
   });

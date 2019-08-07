@@ -17,6 +17,82 @@
     2. 输入用户名密码后, 点击登陆提示输入信息
     3. 不提交表单
   */
+  // 非受控组件
+  /*class Form extends React.Component {
+    usernameRef = React.createRef();
+    passwordRef = React.createRef();
+
+    handleSubmit = (e) => {
+      // 禁止表单默认行为
+      e.preventDefault();
+      // 收集表单数据
+      const username = this.usernameRef.current.value;
+      const password = this.passwordRef.current.value;
+
+      alert(`username: ${username}  password: ${password}`);
+    };
+
+    render() {
+      return <form action="/" onSubmit={this.handleSubmit}>
+        用户名: <input ref={this.usernameRef}/>
+        密码: <input type="password" ref={this.passwordRef}/>
+        <input type="submit" value="登录"/>
+      </form>
+    }
+  }*/
+
+  // 受控组件
+  class Form extends React.Component {
+    state = {
+      username: '',
+      password: ''
+    };
+
+    handleSubmit = (e) => {
+      // 禁止表单默认行为
+      e.preventDefault();
+      // 收集表单数据
+      const { username, password } = this.state;
+
+      alert(`username: ${username}  password: ${password}`);
+    };
+
+    /*handleUsername = (e) => {
+      // 获取用户输入的值
+      // const value = e.target.value;
+      // 更新成状态
+      this.setState({
+        username: e.target.value
+      });
+    };
+
+    handlePassword = (e) => {
+      this.setState({
+        password: e.target.value
+      });
+    };*/
+
+    // 高阶函数：往往会产生闭包
+    handleChange = (key) => {
+      return (e) => {
+        this.setState({
+          [key]: e.target.value
+        });
+      };
+    };
+
+    // handleChange = (key) => (e) => this.setState({[key]: e.target.value});
+
+    render() {
+      return <form action="/" onSubmit={this.handleSubmit}>
+        用户名: <input onChange={this.handleChange('username')}/>
+        密码: <input type="password" onChange={this.handleChange('password')}/>
+        <input type="submit" value="登录"/>
+      </form>
+    }
+  }
+
+  ReactDOM.render(<Form />, document.getElementById('example'));
 </script>
 </body>
 </html>

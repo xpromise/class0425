@@ -11,7 +11,7 @@
 <script type="text/javascript" src="../js/react.development.js"></script>
 <script type="text/javascript" src="../js/react-dom.development.js"></script>
 <script type="text/javascript" src="../js/babel.min.js"></script>
-
+<script type="text/javascript" src="../js/prop-types.js"></script>
 <script type="text/babel">
 
   /*
@@ -19,6 +19,59 @@
   1). 如果性别没有指定, 默认为男
   2). 如果年龄没有指定, 默认为18
   */
+
+  const person = {
+    name: 'jack',
+    age: 18,
+    sex: '男'
+  };
+
+  // 定义组件
+  class Person extends React.Component {
+    /*
+      static 用来定义类的静态方法。（通过static定义的方法，是在Person类上。只有类可以使用，而实例对象用不了）
+      不通过static定义的属性和方法，就在原型上。实例对象就能使用，组件Person类不能用
+     */
+    static propTypes = {
+      name: PropTypes.string.isRequired, // 有一个属性叫name，值为string，必须传
+      age: PropTypes.number,
+      sex: PropTypes.string
+    };
+
+    static defaultProps = {
+      age: 20,
+      sex: '女'
+    };
+
+
+    render() {
+      // console.log(this);
+      const { name, age, sex } = this.props;
+
+      return <ul>
+        <li>姓名：{name}</li>
+        <li>性别：{sex}</li>
+        <li>年龄：{age}</li>
+      </ul>;
+    }
+  }
+
+  // 对属性的类型和必要性进行限制
+  /*Person.propTypes = {
+    name: PropTypes.string.isRequired, // 有一个属性叫name，值为string，必须传
+    age: PropTypes.number,
+    sex: PropTypes.string
+  };*/
+  // 给属性默认值
+  /*Person.defaultProps = {
+    age: 20,
+    sex: '女'
+  };*/
+
+  // 渲染
+  // 通过标签属性方式，组件外向组件内传递数据 --> props方式
+  // ReactDOM.render(<Person name={person.name} age={person.age} sex={person.sex}/>, document.getElementById('example1'));
+  ReactDOM.render(<Person {...person}/>, document.getElementById('example1'));
 
 </script>
 </body>

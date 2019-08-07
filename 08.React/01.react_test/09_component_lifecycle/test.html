@@ -17,6 +17,88 @@
     2. 切换时间为2S
     3. 点击按钮从界面中移除组件界面
    */
+
+  /*
+    初始化渲染：constructor、componentWillMount、componentDidMount只会执行一次
+   */
+  class LifeCircle extends React.Component {
+    /**
+     * 1. 初始化状态  --> 简写
+     * 2. 创建createRef --> 简写
+     * 3. 绑定函数的this指向 --> 箭头函数
+     */
+    constructor() {
+      super();
+      console.log('constructor()');
+      this.state = {
+        flag: false
+      }
+    }
+
+    /**
+     * 如果需要在渲染组件之前要得到数据。
+     * 但是。一般没有这种需求。
+     */
+    componentWillMount() {
+      console.log('componentWillMount()');
+    }
+
+    /**
+     * 1. 在这里发送ajax请求，请求动态数据
+     * 2. 在这里设置定时器等异步任务...
+     * 为什么在这做呢？
+     *   - 不想阻塞初始化渲染。
+     */
+    componentDidMount() {
+      console.log('componentDidMount()');
+    }
+
+    handleClick = () => {
+      /*this.setState({
+        flag: true
+      })*/
+
+      // 卸载组件
+      ReactDOM.unmountComponentAtNode(document.getElementById('example'));
+    };
+
+    /**
+     * React性能优化的生命周期函数
+     * 返回值 true /false
+     * 返回值 true 就更新，触发后面的生命周期函数
+     * 返回值false 就不更新，不触发后面的生命周期函数
+     */
+    shouldComponentUpdate() {
+      console.log('shouldComponentUpdate()');
+      return true;
+    }
+
+    componentWillUpdate() {
+      console.log('componentWillUpdate()');
+    }
+    componentDidUpdate() {
+      console.log('componentDidUpdate()');
+    }
+
+    /**
+     * 做一些收尾工作：
+     *    清除定时器、取消ajax请求...
+     */
+    componentWillUnmount() {
+      console.log('componentWillUnmount()');
+    }
+
+    /**
+     * 返回一个要渲染的虚拟DOM对象
+     */
+    render() {
+      console.log('render()');
+      return <h1 onClick={this.handleClick}>LifeCircle</h1>;
+    }
+  }
+
+  ReactDOM.render(<LifeCircle />, document.getElementById('example'));
+
 </script>
 </body>
 </html>

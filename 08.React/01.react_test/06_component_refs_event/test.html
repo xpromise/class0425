@@ -19,6 +19,58 @@
       2. 点击按钮, 提示第一个输入框中的值
       3. 当第2个输入框失去焦点时, 提示这个输入框中的值
    */
+
+    // 定义组件
+    class Input extends React.Component {
+      /*constructor(props) {
+        super(props);
+
+        this.createRef = React.createRef();
+        // console.log(this.createRef);
+      }*/
+      createRef = React.createRef();
+
+      // 点击事件的回调函数
+      handleClick = () => {
+        // 获取input的value值
+        // stringRef 未来版本被废弃
+        // console.log(this.refs.stringRef.value);
+        // funcRef
+        // console.log(this.funcRef.value);
+        // createRef
+        console.log(this);
+        const input = this.createRef.current;
+        alert(input.value);
+        input.value = '';
+      };
+
+      /*
+        触发事件元素和要操作元素是同一个元素 用event.target
+        如果不是，就需要使用ref方式
+
+        特点：能不用ref就不用ref
+
+        React事件叫做自定义合成事件
+       */
+      handleBlur = (event) => {
+        // console.log(event.target);
+        alert(event.target.value);
+      };
+
+      render() {
+        return <div>
+          {/* <input ref="stringRef"/> &nbsp;&nbsp; */}
+          {/* <input ref={(input) => { this.funcRef = input }}/> &nbsp;&nbsp; */}
+          <input ref={this.createRef}/> &nbsp;&nbsp;
+          <button onClick={this.handleClick}>点击提示数据</button> &nbsp;&nbsp;
+          <input onBlur={this.handleBlur} placeholder="失去焦点提示数据"/>
+        </div>
+      }
+    }
+
+    // 渲染
+    ReactDOM.render(<Input/>, document.getElementById('example'));
+
   </script>
 </body>
 </html>

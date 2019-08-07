@@ -29,6 +29,8 @@
           3. state定义哪个组件中?
             - 如果状态数据只有一个组件使用，定义在这个组件中
             - 如果状态数据有多个组件使用，定义在它们的公共父组件中
+          4. 操作state方法定义在哪？
+            state在哪里，操作数据的方法就在那里
 
           实现步骤：
             1. 实现数据动态展示
@@ -41,24 +43,52 @@
         todos: ['吃饭', '睡觉', '打豆豆']
       };
 
+      addTodo = (todo) => {
+        // 更新状态
+        // 不应该修改之前的数据，应该创建一份新数据
+        this.setState({
+          todos: [todo, ...this.state.todos]
+        })
+      };
+
       render() {
+        const { todos } = this.state;
 
         return <div>
           <h1>Simple Todo List</h1>
-
-          <Add />
+          <Add addTodo={this.addTodo} length={todos.length}/>
           {/* 组件外向组件内传递变化数据， 以标签属性方式传递 */}
-          <List todos={this.state.todos}/>
+          <List todos={todos} />
         </div>
 
       }
     }
 
     class Add extends React.Component {
+      static propTypes = {
+        addTodo: PropTypes.func.isRequired,
+        length: PropTypes.number.isRequired
+      };
+
+      createRef = React.createRef();
+
+      add = () => {
+        const input = this.createRef.current;
+        // 获取input的value值
+        const value = input.value.trim();
+        // 如果value为空，就直接退出
+        if (!value) return;
+        // 添加
+        this.props.addTodo(value);
+        // 清空数据
+        input.value = '';
+      };
+
       render() {
+        // console.log(this);
         return <div>
-          <input />
-          <button>Add #3</button>
+          <input ref={this.createRef}/>
+          <button onClick={this.add}>Add #{this.props.length}</button>
         </div>
       }
     }

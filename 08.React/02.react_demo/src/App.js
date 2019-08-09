@@ -12,6 +12,21 @@ import './App.css';
   2. 将style改成对象
  */
 export default class App extends Component {
+  // 初始化状态数据
+  state = {
+    comments: [
+      { name: 'jack', content: 'I Love Rose' },
+      { name: 'rose', content: 'I Love peihua' }
+    ]
+  };
+
+  updateComment = (comment) => {
+    // 不要修改原数据
+    this.setState({
+      comments: [comment, ...this.state.comments]
+    })
+  };
+
   render() {
     return <div>
       <header className="site-header jumbotron">
@@ -24,8 +39,8 @@ export default class App extends Component {
         </div>
       </header>
       <div className="container">
-        <Add />
-        <List />
+        <Add updateComment={this.updateComment}/>
+        <List comments={this.state.comments}/>
       </div>
     </div>;
   }

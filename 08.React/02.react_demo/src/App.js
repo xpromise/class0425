@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/*
+  定义App组件
+ */
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from 'react';
+// 引入样式
+import './App.css';
+// 引入图片
+import img from './1.jpg';
+
+// 定义组件
+class App extends React.Component {
+  render() {
+    return <div>
+      <h1 className="title">App.....</h1>
+      <img src={img} alt="img~~~~"/>
+    </div>;
+  }
 }
 
+// 暴露出去
 export default App;

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import PubSub from 'pubsub-js';
+import PropTypes from 'prop-types';
 
 // 受控组件
 export default class Add extends Component {
+  static propTypes = {
+    updateComment: PropTypes.func.isRequired
+  };
 
   state = {
     name: '',
@@ -47,8 +50,8 @@ export default class Add extends Component {
     const { name, content } = this.state;
     // 如果数据为空，就提示给用户错误信息
     if (!name || !content) return alert('输入内容不能为空');
-    // 发布消息
-    PubSub.publish('ADD_COMMENT', { name, content, id: this.id++ });
+    // 将数据传递给App
+    this.props.updateComment({ name, content, id: this.id++ });
     // 清空表单数据
     this.setState({
       name: '',

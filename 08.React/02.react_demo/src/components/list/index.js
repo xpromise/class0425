@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
-// prop-types不是直接依赖，他是依赖的依赖
-import PropTypes from 'prop-types';
+import PubSub from 'pubsub-js';
 
 import Item from '../item';
 
 export default class List extends Component {
-  // 约束要接受props的类型和必要性
-  static propTypes = {
-    comments: PropTypes.array.isRequired,
-    del: PropTypes.func.isRequired
+  // 初始化状态数据
+  state = {
+    comments: [
+      { name: 'jack', content: 'I Love Rose', id: 1 },
+      { name: 'rose', content: 'I Love peihua', id: 2 }
+    ]
   };
 
-  render() {
-    // 获取props
-    const { comments, del } = this.props;
+  del = (i) => {
+    this.setState({
+      comments: this.state.comments.filter((comment, index) => index !== i)
+    })
+  };
 
+  componentDidMount() {
+    // 订阅消息
+    PubSub.subscribe('ADD_COMMENT', (msg, comment) => {
+      // console.log(msg, comment);  // ADD_COMMENT {name: "aaa", content: "bbb", id: 3}
+      this.setState({
+        comments: [comment, ...this.state.comments]
+      })
+    })
+  }
+
+  render() {
+    const { comments } = this.state;
     // 当样式需要通过js来控制，这时候就用行内样式
     const isDisplay = comments.length ? 'none' : 'block';
 
@@ -24,7 +39,7 @@ export default class List extends Component {
       <ul className="list-group">
         {
           comments.map((comment, index) => {
-            return <Item key={comment.id} comment={comment} del={del} index={index}/>
+            return <Item key={comment.id} comment={comment} del={this.del} index={index}/>
           })
         }
       </ul>

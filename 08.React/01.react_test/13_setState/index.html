@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+
+  class App extends React.Component {
+    state = {
+      val: 0
+    };
+
+    btnRef = React.createRef();
+
+    // 震惊!隔壁老王也有失手的时候~
+    componentDidMount() {
+      this.setState({val: this.state.val + 1});
+      console.log(this.state.val); // ?
+
+      this.setState((prevState) => ({val: prevState.val + 1}));
+      console.log(this.state.val); // ?
+
+      setTimeout(() => {
+        this.setState({val: this.state.val + 1});
+        console.log(this.state.val); // ?
+
+        this.setState({val: this.state.val + 1});
+        console.log(this.state.val); // ?
+      }, 1000);
+
+      this.btnRef.current.onclick = () => {
+        this.setState({val: this.state.val + 1});
+        console.log(this.state.val); // ?
+      }
+    }
+
+    handleClick = () => {
+      this.setState({val: this.state.val + 1});
+      console.log(this.state.val); // ?
+    };
+
+    render() {
+      return <div>
+        <h2 onClick={this.handleClick}>App组件</h2>
+        <button ref={this.btnRef}>点我~</button>
+      </div>;
+    }
+  }
+
+  ReactDOM.render(<App />, document.getElementById('example'));
+
+</script>
+</body>
+</html>

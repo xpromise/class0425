@@ -12,6 +12,27 @@ export default class Add extends Component {
     content: ''
   };
 
+  id = 3;
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    // 性能优化
+    // 判断组件的state是否发生变化，发生变化就更新。不变化就不更新
+    // console.log(this.state); // 之前的
+    // console.log(nextState); // 最新的
+
+    const prevState = this.state;
+
+    for (const key in nextState) {
+      if (nextState[key] !== prevState[key]) {
+        // 更新
+        return true
+      }
+    }
+
+    // 不更新
+    return false;
+  }
+
   handleChange = (key) => {
     // 外层函数负责传入key。key就是要更新state的名称
     return (e) => {
@@ -30,7 +51,7 @@ export default class Add extends Component {
     // 如果数据为空，就提示给用户错误信息
     if (!name || !content) return alert('输入内容不能为空');
     // 将数据传递给App
-    this.props.updateComment({ name, content });
+    this.props.updateComment({ name, content, id: this.id++ });
     // 清空表单数据
     this.setState({
       name: '',
@@ -39,6 +60,7 @@ export default class Add extends Component {
   };
 
   render() {
+    console.log('render');
     const { name, content } = this.state;
 
     return <div className="col-md-4">

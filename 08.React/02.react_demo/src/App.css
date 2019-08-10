@@ -1,31 +1,24 @@
-.reply {
-  margin-top: 0px;
+.album {
+  min-height: 50rem; /* Can be removed; just added for demo purposes */
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #f7f7f7;
 }
 
-li {
-  transition: .5s;
-  overflow: hidden;
-}
-
-.handle {
-  width: 40px;
-  border: 1px solid #ccc;
-  background: #fff;
-  position: absolute;
-  right: 10px;
-  top: 1px;
+.card {
+  float: left;
+  width: 33.333%;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 1px solid #efefef;
   text-align: center;
 }
 
-.handle a {
-  display: block;
-  text-decoration: none;
+.card > img {
+  margin-bottom: .75rem;
+  border-radius: 100px;
 }
 
-.list-group-item .centence {
-  padding: 0px 50px;
-}
-
-.user {
-  font-size: 22px;
+.card-text {
+  font-size: 85%;
 }

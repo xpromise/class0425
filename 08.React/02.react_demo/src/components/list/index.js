@@ -1,48 +1,75 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
-
-import Item from '../item';
+import axios from 'axios';
 
 export default class List extends Component {
-  // 初始化状态数据
   state = {
-    comments: [
-      { name: 'jack', content: 'I Love Rose', id: 1 },
-      { name: 'rose', content: 'I Love peihua', id: 2 }
-    ]
-  };
-
-  del = (i) => {
-    this.setState({
-      comments: this.state.comments.filter((comment, index) => index !== i)
-    })
+    users: [],  // 控制成功状态
+    firstView: true, // 控制初始化状态
+    error: '' // 控制错误状态
   };
 
   componentDidMount() {
-    // 订阅消息
-    PubSub.subscribe('ADD_COMMENT', (msg, comment) => {
-      // console.log(msg, comment);  // ADD_COMMENT {name: "aaa", content: "bbb", id: 3}
+    PubSub.subscribe('SEARCH', (msg, name) => {
+      // 更新为loading
       this.setState({
-        comments: [comment, ...this.state.comments]
-      })
+        users: [],
+        firstView: false, // 取消初始化显示
+        error: ''
+      });
+      // 发送请求搜索github users
+      // console.log(name);
+      axios.get(`https://api.github.com/search/users?q=${name}`)
+        .then((response) => {
+          // 提取数据
+          const users = response.data.items.map((item) => {
+            return {
+              name: item.login,
+              url: item.html_url,
+              img: item.avatar_url
+            }
+          });
+          // console.log(users);
+          // 更新状态
+          this.setState({
+            users
+          })
+        })
+        .catch((error) => {
+          this.setState({
+            error: '网络出现故障，请刷新试试'
+          })
+        })
     })
   }
 
   render() {
-    const { comments } = this.state;
-    // 当样式需要通过js来控制，这时候就用行内样式
-    const isDisplay = comments.length ? 'none' : 'block';
+    const { users, firstView, error } = this.state;
 
-    return <div className="col-md-8">
-      <h3 className="reply">评论回复：</h3>
-      <h2 style={{display: isDisplay}}>暂无评论，点击左侧添加评论！！！</h2>
-      <ul className="list-group">
+    if (firstView) {
+      return <h1>enter name to search</h1>;
+    }
+
+    if (error) {
+      return <h1>{error}</h1>;
+    }
+
+    if (users.length) {
+      return <div className="row">
         {
-          comments.map((comment, index) => {
-            return <Item key={comment.id} comment={comment} del={this.del} index={index}/>
+          users.map((user, index) => {
+            return <div className="card" key={index}>
+              <a href={user.url} target="_blank">
+                <img src={user.img} style={{width: 100}} />
+              </a>
+              <p className="card-text">{user.name}</p>
+            </div>
           })
         }
-      </ul>
-    </div>;
+      </div>;
+    }
+
+    return <h1>loading...</h1>;
+
   }
 }

@@ -17,21 +17,35 @@
     };
 
     btnRef = React.createRef();
-
+    /*
+      在生命周期函数、React合成事件中，setState是异步的
+        setState(obj) 多个异步会合并成最后一次
+        setState(function) 不会被合并
+      在定时器、原生DOM事件中，setState是同步的
+    */
     // 震惊!隔壁老王也有失手的时候~
     componentDidMount() {
       this.setState({val: this.state.val + 1});
-      console.log(this.state.val); // ?
+      console.log(this.state.val); // 0
+
+      this.setState({val: this.state.val + 2});
+      console.log(this.state.val); // 0
 
       this.setState((prevState) => ({val: prevState.val + 1}));
-      console.log(this.state.val); // ?
+      console.log(this.state.val); // 0
+
+      this.setState((prevState) => ({val: prevState.val + 1}));
+      console.log(this.state.val); // 0
 
       setTimeout(() => {
         this.setState({val: this.state.val + 1});
-        console.log(this.state.val); // ?
+        console.log(this.state.val); // 3
 
         this.setState({val: this.state.val + 1});
-        console.log(this.state.val); // ?
+        console.log(this.state.val); // 4
+
+        this.setState((prevState) => ({val: prevState.val + 1}));
+        console.log(this.state.val); // 5
       }, 1000);
 
       this.btnRef.current.onclick = () => {

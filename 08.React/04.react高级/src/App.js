@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+
+import A from './A';
+import MyContext from './my-context';
 
 class App extends Component {
 
   render() {
-    // 抛出一个异常 / 错误
-    // throw new Error('这是故意抛出的错误');
-    const a = 123;
-    console.log(a());
 
     return (
-      <h1>hello react</h1>
+      <Fragment>
+        <h1>App组件...</h1>
+        <MyContext.Provider value={{flag: true}}>
+          <A />
+        </MyContext.Provider>
+      </Fragment>
     );
   }
 }

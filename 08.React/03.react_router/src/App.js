@@ -35,6 +35,14 @@ export default class App extends Component {
         <div className="col-xs-6">
           <div className="panel">
             <div className="panel-body">
+              {/*
+                三个路由属性： history / location / match
+                  history 用来操作浏览器历史记录
+                  location.pathname 用来获取当前地址
+                  match  math.params 用来获取占位符参数（params参数）
+                三个路由属性只有路由组件有
+                当组件通过Route加载的就是路由组件
+              */}
               {/* 一旦地址变化成 /about，就立即加载About组件。 一旦变化成其他的，就不加载 */}
               <Route path="/about" component={About}/>
               <Route path="/home" component={Home}/>

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import { Link, Route } from 'react-router-dom';
+
+import MessagesDetail from '../messages-detail';
+
 export default class Messages extends Component {
   state = {
     messages: []
@@ -23,13 +27,41 @@ export default class Messages extends Component {
     clearTimeout(this.timer);
   }
 
+  push = (path) => {
+    return () => {
+      this.props.history.push(path);
+    }
+  };
+
+  goBack = () => {
+    this.props.history.goBack();
+  };
+
+  goForward = () => {
+    this.props.history.goForward();
+  };
+
   render() {
-    return <ul>
-      {
-        this.state.messages.map((item) => {
-          return <li key={item.id}>{item.content}</li>
-        })
-      }
-    </ul>;
+    return <div>
+      <ul>
+        {
+          this.state.messages.map((item) => {
+            const path = `/home/messages/${item.id}`;
+            return <li key={item.id}>
+              <Link to={path}>{item.content}</Link>
+              <button onClick={this.push(path)}>push</button>
+            </li>
+          })
+        }
+      </ul>
+      <button onClick={this.goBack}>back</button>
+      <button onClick={this.goForward}>forward</button>
+      {/*
+          路径匹配方式：
+            一对一关系： /home/message/1  只能匹配一个地址
+            多对一关系： /home/message/:id 能够匹配多个地址
+      */}
+      <Route path="/home/messages/:id" component={MessagesDetail}/>
+    </div>;
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
-import A from './A';
-import MyContext from './my-context';
+import Login from './components/login';
+import Register from './components/register';
 
 class App extends Component {
 
@@ -9,10 +9,8 @@ class App extends Component {
 
     return (
       <Fragment>
-        <h1>App组件...</h1>
-        <MyContext.Provider value={{flag: true}}>
-          <A />
-        </MyContext.Provider>
+        <Login />
+        <Register />
       </Fragment>
     );
   }

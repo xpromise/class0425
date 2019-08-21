@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { increment, decrement } from './redux/action-creators';
+import { increment, decrement, incrementAsync } from './redux/action-creators';
 
 class App extends Component {
   state = {
@@ -26,10 +26,11 @@ class App extends Component {
   };
 
   incrementAsync = () => {
-    setTimeout(() => {
-      const { value } = this.state;
+    /*setTimeout(() => {
       this.props.increment(+value);
-    }, 1000)
+    }, 1000)*/
+    const { value } = this.state;
+    this.props.incrementAsync(+value);
   };
 
   handleChange = (e) => {
@@ -86,13 +87,22 @@ const mapDispatchToProps = (dispatch) => {
   react-redux：
     将组件分为两大类：普通组件、容器组件
       容器组件就是使用redux的组件，放在containers下
-      普通组件就是没有使用redux的组件，放在components下
+      UI普通组件就是没有使用redux的组件，放在components下
  */
 
 // connect高阶组件，负责给App组件传递redux的内容
+/*
 export default connect(
   mapStateToProps,
   mapDispatchToProps
+)(
+  App
+)
+*/
+
+export default connect(
+  (state) => ({num: state.num}),
+  { increment, decrement, incrementAsync }
 )(
   App
 )

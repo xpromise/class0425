@@ -1,18 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { Provider } from 'react-redux';
 
+import App from './App';
 import store from './redux/store';
 
-// 一旦状态发生变化，就会触发函数
-/*store.subscribe(() => {
-  // 重新渲染组件
-  render();
-});*/
-store.subscribe(render);
-
-// 初始化渲染
-render();
-function render() {
-  ReactDOM.render(<App />, document.getElementById('root'));
-}
+// Provider组件使用context语法，负责给要使用redux的state组件从传入state
+// 负责一旦状态更新，重新渲染组件
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.getElementById('root'));

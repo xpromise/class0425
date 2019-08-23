@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>自定义Promise</title>
+</head>
+<body>
+<script type="text/javascript" src="./src/promise.js"></script>
+<script type="text/javascript">
+  console.log('代码开始执行了~');
+  const promise = new Promise((resolve, reject) => {
+    console.log('executor函数执行了~');
+    reject(111);
+    resolve(222);
+    // throw 123;
+  });
+  console.log(promise);
+  console.log('全部代码执行完毕~');
+</script>
+</body>
+</html>

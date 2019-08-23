@@ -70,6 +70,9 @@
     // promise.then()  --> then方法this就是promise
     const _self = this;
 
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (value) => value;
+    onRejected = typeof onRejected === 'function' ? onRejected : (value) => {throw value};
+
     /*
       1. 上一次成功/失败回调函数返回值是一个普通值，then返回值就是成功状态promise对象，并且内部值就是return的返回值
       2. 上一次成功/失败回调函数返回值是一个promise，then返回值就是这个promise
@@ -79,51 +82,91 @@
       promise = new Promise(function (resolve, reject) {
         // 此时promise状态是成功状态，此时要调用成功的回调函数
         // 应该是异步执行: setTimeout 他不是为了延时，只是借助setTimeout让代码异步执行
-        setTimeout(function () {
-          try {
-            // result就是成功回调函数的返回值
-            const result = onFulfilled(_self.data);
-            if (result instanceof Promise) {
-              // 说明返回值是一个promise
-              promise = result;
-            } else {
-              resolve(result);
-            }
-          } catch (e) {
-            reject(e);
-          }
-        }, 0)
+        doResolved(onFulfilled, _self.data, resolve, reject);
       })
     } else if (this.status === 'rejected') {
       promise = new Promise(function (resolve, reject) {
         // 此时promise状态是失败状态，此时要调用失败的回调函数
         // 应该是异步执行
-        setTimeout(function () {
-          try {
-            // result就是成功回调函数的返回值
-            const result = onRejected(_self.data);
-            if (result instanceof Promise) {
-              // 说明返回值是一个promise
-              promise = result;
-            } else {
-              resolve(result);
-            }
-          } catch (e) {
-            reject(e);
-          }
-        }, 0)
+        doResolved(onRejected, _self.data, resolve, reject);
       })
     } else {
       // pending 状态 --> 收集then方法的成功/失败的回调函数, 为了给后面调用
       promise = new Promise((resolve, reject) => {
-        this.callbacks.push({
-          onFulfilled: onFulfilled,
-          onRejected: onRejected
+        _self.callbacks.push({
+          onFulfilled: function (value) {
+            doResolved(onFulfilled, value, resolve, reject);
+          },
+          onRejected: function (reason) {
+            doResolved(onRejected, reason, resolve, reject);
+          },
         })
       })
     }
 
     return promise;
+  };
+
+  function doResolved(fn, value, resolve, reject) {
+    setTimeout(function () {
+      try {
+        // debugger
+        const result = fn(value);
+        if (result instanceof Promise) {
+          result.then(resolve, reject);
+        } else {
+          resolve(result);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    }, 0)
+  }
+
+  Promise.prototype.catch = function (onRejected) {
+    return this.then(null, onRejected);
+  };
+
+  Promise.resolve = function (value) {
+    return new Promise((resolve, reject) => {
+      if (value instanceof Promise) {
+        value.then(resolve, reject)
+      } else {
+        resolve(value);
+      }
+    })
+  };
+
+  Promise.reject = function (reason) {
+    return new Promise((resolve, reject) => {
+      reject(reason);
+    })
+  };
+
+  Promise.all = function (promises) {
+    return new Promise((resolve, reject) => {
+      const length = promises.length;
+
+      let successPromise = 0;
+      const results = [];
+
+      for (let i = 0; i < length; i++) {
+        const promise = promises[i];
+        promise.then(
+          (value) => {
+            successPromise++;
+            results[i] = value;
+            if (successPromise === length) {
+              // 全部成功了
+              resolve(results);
+            }
+          },
+          (reason) => {
+            reject(reason);
+          }
+        )
+      }
+    })
   };
 
   return Promise;

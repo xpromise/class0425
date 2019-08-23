@@ -8,19 +8,21 @@
 <script type="text/javascript" src="./src/promise.js"></script>
 <script type="text/javascript">
   console.log('代码开始执行了~');
-
   const promise = new Promise((resolve, reject) => {
     console.log('executor函数执行了~');
     // reject(111);
-    // resolve(111);
-    throw 111;
+    reject(111);
+    // throw 111;
   });
   console.log(promise);
 
-  promise
+  /*promise
     .then(
       (value) => {
         console.log('成功111', value);
+        return new Promise((resolve, reject) => {
+          reject(222);
+        })
       },
       (reason) => {
         console.log('失败111', reason);
@@ -32,9 +34,50 @@
       },
       (reason) => {
         console.log('失败222', reason);
+        return new Promise((resolve, reject) => {
+          resolve(333);
+        })
       }
     )
+    .then(
+      (value) => {
+        console.log('成功333', value);
+      },
+      (reason) => {
+        console.log('失败333', reason);
+      }
+    )
+    .then(
+      (value) => {
+        console.log('成功444', value);
+      },
+      (reason) => {
+        console.log('失败444', reason);
+      }
+    )*/
 
+  promise
+    .then((value) => {
+      console.log('成功111', value);
+      return 222;
+    })
+    .catch((reason) => {
+      console.log('失败111', reason);
+    })
+    /*.then(null, (reason) => {
+      console.log('失败111', reason);
+    })*/
+    /*.then((value) => value, (reason) => {
+      console.log('失败111', reason);
+    })*/
+    .then((value) => {
+      console.log('成功222', value);
+    })
+    .catch((reason) => {
+      console.log('失败222', reason);
+    })
+
+  console.log(Promise.resolve(new Promise((resolve, reject) => { reject(123) })));
 
   console.log('全部代码执行完毕~');
 </script>

@@ -8,13 +8,34 @@
 <script type="text/javascript" src="./src/promise.js"></script>
 <script type="text/javascript">
   console.log('代码开始执行了~');
+
   const promise = new Promise((resolve, reject) => {
     console.log('executor函数执行了~');
-    reject(111);
-    resolve(222);
-    // throw 123;
+    // reject(111);
+    // resolve(111);
+    throw 111;
   });
   console.log(promise);
+
+  promise
+    .then(
+      (value) => {
+        console.log('成功111', value);
+      },
+      (reason) => {
+        console.log('失败111', reason);
+      }
+    )
+    .then(
+      (value) => {
+        console.log('成功222', value);
+      },
+      (reason) => {
+        console.log('失败222', reason);
+      }
+    )
+
+
   console.log('全部代码执行完毕~');
 </script>
 </body>
